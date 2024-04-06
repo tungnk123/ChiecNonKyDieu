@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">ChiecNonKyDieu</string>
+    <string name="app_title">CHIẾC NÓN KỲ DIỆU</string>
+
+    <string name="btn_batDau">BẮT ĐẦU</string>
+    <string name="btn_taoPhong">TẠO PHÒNG</string>
+    <string name="btn_timPhong">TÌM PHÒNG</string>
+    <string name="wheel_logo">wheel logo</string>
+
+    <string name="title_taoPhong">Tạo phòng</string>
+    <string name="title_timPhong">Tìm phòng</string>
+    <string name="title_tenNguoiChoi">Tên Người chơi</string>
+    <string name="title_maPhong">Mã phòng</string>
 </resources>
