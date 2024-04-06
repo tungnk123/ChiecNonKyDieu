@@ -6,7 +6,10 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Firebase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import kotlinx.coroutines.CompletableDeferred
 import kotlin.coroutines.coroutineContext
@@ -27,10 +30,7 @@ object GameData {
     }
     fun saveGameModel(model: GameModel) {
         _gameModel.postValue(model)
-        if (model.gameId != -1) {
-
-            database.child(REFERENCE_ROOM).child(model.gameId.toString()).setValue(model)
-        }
+        database.child(REFERENCE_ROOM).child(model.gameId.toString()).setValue(model)
     }
 
     suspend fun joinOnlineGame(player: Player, gameId: Int): Boolean {
@@ -74,4 +74,20 @@ object GameData {
         return deferred.await()
     }
 
+    suspend fun fetchGameModel(gameId: Int) {
+        database.child(REFERENCE_ROOM).child(gameId.toString())
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val gameModel: GameModel? = snapshot.getValue(GameModel::class.java)
+                    if (gameModel != null) {
+                        saveGameModel(gameModel)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Handle error
+                    Log.e("fetchGameModel", "Error fetching game model: ${error.message}")
+                }
+            })
+    }
 }

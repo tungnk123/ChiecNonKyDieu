@@ -11,4 +11,8 @@
     <string name="title_timPhong">Tìm phòng</string>
     <string name="title_tenNguoiChoi">Tên Người chơi</string>
     <string name="title_maPhong">Mã phòng</string>
+    
+    <string name="title_doiNguoiChoi">Đợi người chơi</string>
+    <string name="waiting_text">Đang đợi người chơi</string>
+    
 </resources>

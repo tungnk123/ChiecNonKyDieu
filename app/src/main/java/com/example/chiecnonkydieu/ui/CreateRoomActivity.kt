@@ -1,5 +1,6 @@
 package com.example.chiecnonkydieu.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -52,7 +53,7 @@ class CreateRoomActivity : AppCompatActivity() {
                 )
 
             }
-            startGame()
+            goToWaitingRooom()
         }
     }
 
@@ -61,7 +62,9 @@ class CreateRoomActivity : AppCompatActivity() {
         return true
     }
 
-    fun startGame() {
-
+    fun goToWaitingRooom() {
+        val intent = Intent(this, WaitingRoomActivity::class.java)
+        intent.putExtra("room_id", binding.tvMaPhong.text.toString())
+        startActivity(intent)
     }
 }

@@ -1,5 +1,6 @@
 package com.example.chiecnonkydieu.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -47,7 +48,7 @@ class SearchRoomActivity : AppCompatActivity() {
                 }.await()
 
                 if (isJoined) {
-                    startGame()
+                    goToWaitingRooom()
                 } else {
                     Toast.makeText(applicationContext, "Error when connect game", Toast.LENGTH_LONG).show()
                 }
@@ -56,8 +57,15 @@ class SearchRoomActivity : AppCompatActivity() {
         }
     }
 
-    private fun startGame() {
-        TODO("Not yet implemented")
+    fun goToWaitingRooom() {
+        try {
+            val intent = Intent(this, WaitingRoomActivity::class.java)
+            intent.putExtra("room_id", binding.edtMaPhong.text.toString())
+            startActivity(intent)
+        }
+        catch (exception: Exception) {
+            Toast.makeText(this, binding.edtMaPhong.text, Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
