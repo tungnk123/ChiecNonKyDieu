@@ -46,12 +46,12 @@ class CreateRoomActivity : AppCompatActivity() {
                 val gameModel: GameModel = GameModel(
                     gameStatus = GameStatus.CREATED,
                     gameId = binding.tvMaPhong.text.toString().toInt(),
+                    currentQuestion = "Thủ đô của Việt Nam nằm ở đâu?"
                 )
                 gameModel.playersList.add(Player(binding.edtName.text.toString()))
                 GameData.saveGameModel(
                     gameModel
                 )
-
             }
             goToWaitingRooom()
         }

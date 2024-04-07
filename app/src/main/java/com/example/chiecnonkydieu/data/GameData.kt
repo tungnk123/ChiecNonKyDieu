@@ -22,7 +22,7 @@ object GameData {
     private lateinit var appContext: Context
 
 
-    private val database: DatabaseReference = Firebase.database.reference
+    val database: DatabaseReference = Firebase.database.reference
 
     fun initialize(context: Context) {
 

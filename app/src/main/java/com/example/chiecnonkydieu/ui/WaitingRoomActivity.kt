@@ -13,8 +13,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.example.chiecnonkydieu.R
 import com.example.chiecnonkydieu.data.GameData
+import com.example.chiecnonkydieu.data.GameData.gameModel
 import com.example.chiecnonkydieu.data.GameModel
+import com.example.chiecnonkydieu.data.GameStatus
+import com.example.chiecnonkydieu.data.Player
 import com.example.chiecnonkydieu.databinding.ActivityWaitingRoomBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 
 class WaitingRoomActivity : AppCompatActivity() {
@@ -43,16 +49,54 @@ class WaitingRoomActivity : AppCompatActivity() {
         lifecycleScope.launch {
 
             GameData.fetchGameModel(intent.getStringExtra("room_id").toString().toInt())
+            if (GameData.gameModel.value?.gameStatus == GameStatus.INPROGRESS) {
+                goToPlayingRoom()
+            }
 
         }
 
         // update ui with the new model
         GameData.gameModel.observe(this, Observer { gameModel ->
             updateUi(gameModel)
+            if (gameModel.gameStatus == GameStatus.INPROGRESS) {
+                goToPlayingRoom()
+            }
         })
+
+        binding.btnStartGame.setOnClickListener {
+            val gameModel: GameModel? = GameData.gameModel.value
+            if (gameModel != null) {
+                gameModel.gameStatus = GameStatus.INPROGRESS
+                GameData.saveGameModel(
+                    gameModel
+                )
+            }
+            goToPlayingRoom()
+        }
+
+
 
 
     }
+
+    // Tu dong lang nghe su thay doi tu database trong vong doi cua activity
+//    override fun onStart() {
+//        super.onStart()
+//
+//        GameData.database.addValueEventListener(object :
+//            ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                val gameModel: GameModel? = snapshot.getValue(GameModel::class.java)
+//                if (gameModel != null) {
+//                    GameData.saveGameModel(gameModel)
+//                }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                //
+//            }
+//        })
+//    }
 
     private fun updateUi(gameModel: GameModel?) {
         if (gameModel != null) {
@@ -101,5 +145,11 @@ class WaitingRoomActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    private fun goToPlayingRoom() {
+        val intent = Intent(this, PlayingRoomActivity::class.java)
+        intent.putExtra("room_id", binding.tvMaPhong.text.toString())
+        startActivity(intent)
     }
 }
