@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.gms.google-services")
 }
-
 android {
     namespace = "com.example.chiecnonkydieu"
     compileSdk = 34
@@ -34,6 +33,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -47,4 +50,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+
+    //wheel
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.7")
+    implementation ("com.github.thanhniencung:LuckyWheel:a6110f5128")
 }
