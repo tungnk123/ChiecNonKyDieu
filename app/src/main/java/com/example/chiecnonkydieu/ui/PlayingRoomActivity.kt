@@ -1,6 +1,7 @@
 package com.example.chiecnonkydieu.ui
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
@@ -8,8 +9,10 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -21,7 +24,10 @@ import com.example.chiecnonkydieu.data.GameData
 import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
 import com.example.chiecnonkydieu.databinding.ActivityPlayingRoomBinding
+import com.example.chiecnonkydieu.ui.wheel.WheelActivity
+import com.example.chiecnonkydieu.ui.wheel.WheelViewModel
 import kotlinx.coroutines.launch
+import rubikstudio.library.LuckyWheelView
 
 
 class PlayingRoomActivity : AppCompatActivity() {
@@ -38,6 +44,14 @@ class PlayingRoomActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
+        val toolbar: Toolbar = binding.toolbar
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
 
         lifecycleScope.launch {
             GameData.fetchGameModel(intent.getStringExtra("room_id").toString().toInt())
@@ -63,6 +77,31 @@ class PlayingRoomActivity : AppCompatActivity() {
         binding.iconButton.setOnClickListener {
             Toast.makeText(this, "Hint click", Toast.LENGTH_LONG).show()
         }
+
+        // Wheel
+        val wheelViewModel: WheelViewModel by viewModels<WheelViewModel>()
+        val luckyWheelView: LuckyWheelView = binding.luckyWheel
+
+        wheelViewModel.initLuckyItemList(this)
+        luckyWheelView.setData(wheelViewModel.luckyItemsList)
+        luckyWheelView.setLuckyRoundItemSelectedListener {
+            Toast.makeText(this, "on click", Toast.LENGTH_LONG).show()
+            goToWheelActivity()
+        }
+        luckyWheelView.isTouchEnabled = false
+        binding.llWheel.setOnClickListener {
+            goToWheelActivity()
+        }
+
+
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+    private fun goToWheelActivity() {
+        val intent = Intent(this, WheelActivity::class.java)
+        startActivity(intent)
     }
 
     private fun updateUi(gameModel: GameModel?) {

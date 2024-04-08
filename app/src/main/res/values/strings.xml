@@ -23,6 +23,6 @@
     <string name="hint">Hint</string>
 
     <string name="title_denLuotCuaBan">Đến lượt của bạn</string>
-    <string name="con_lai_x_giay">Còn lại {O} s</string>
+    <string name="con_lai_x_giay">Còn lại %s s</string>
     <string name="nhap_loi_giai">Nhập lời giải</string>
 </resources>

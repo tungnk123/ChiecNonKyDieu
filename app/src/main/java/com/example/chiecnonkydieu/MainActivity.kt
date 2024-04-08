@@ -10,9 +10,7 @@ import com.example.chiecnonkydieu.databinding.ActivityMainBinding
 import com.example.chiecnonkydieu.ui.CreateRoomActivity
 import com.example.chiecnonkydieu.ui.PlayingRoomActivity
 import com.example.chiecnonkydieu.ui.SearchRoomActivity
-import com.example.chiecnonkydieu.ui.WaitingRoomActivity
-import com.google.firebase.Firebase
-import com.google.firebase.database.database
+import com.example.chiecnonkydieu.ui.wheel.WheelActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -37,7 +35,9 @@ class MainActivity : AppCompatActivity() {
 //        val intent = Intent(this, WaitingRoomActivity::class.java)
 //        startActivity(intent)
         binding.btnBatDau.setOnClickListener {
-            goToPlayingRoom()
+//            goToPlayingRoom()
+            val intent = Intent(this, WheelActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnTaoPhong.setOnClickListener {

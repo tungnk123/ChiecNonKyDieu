@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
+    android:background="@color/background"
     android:layout_height="match_parent"
-    tools:context=".ui.WheelActivity">
+    tools:context=".ui.wheel.WheelActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,7 +20,7 @@
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_conLaiXGiay"
         style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,6 +29,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <FrameLayout
+        android:id="@+id/ll_wheel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_conLaiXGiay"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <rubikstudio.library.LuckyWheelView
+            android:id="@+id/luckyWheel"
+            android:layout_width="360dp"
+            android:layout_height="360dp"
+            android:layout_marginTop="36dp"
+            app:lkwCenterImage="@drawable/ic_hint"
+            app:lkwCursor="@drawable/ic_cursor"
+            app:lkwEdgeColor="@color/orange"
+            app:lkwEdgeWidth="16"
+            android:translationZ="-10dp"
+            app:lkwSecondaryTextSize="16sp"
+            app:lkwTopTextColor="@color/white"
+            app:lkwTopTextPadding="8dp"
+            app:lkwTopTextSize="12sp"
+
+            android:clickable="false" /> <!-- Set clickable to false -->
+    </FrameLayout>
+
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_quay"

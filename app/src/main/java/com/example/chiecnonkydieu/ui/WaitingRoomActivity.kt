@@ -60,6 +60,7 @@ class WaitingRoomActivity : AppCompatActivity() {
             updateUi(gameModel)
             if (gameModel.gameStatus == GameStatus.INPROGRESS) {
                 goToPlayingRoom()
+                finish()
             }
         })
 
@@ -148,8 +149,10 @@ class WaitingRoomActivity : AppCompatActivity() {
     }
 
     private fun goToPlayingRoom() {
-        val intent = Intent(this, PlayingRoomActivity::class.java)
-        intent.putExtra("room_id", binding.tvMaPhong.text.toString())
+        val intent = Intent(this, PlayingRoomActivity::class.java).apply {
+            putExtra("room_id", binding.tvMaPhong.text.toString())
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+        }
         startActivity(intent)
     }
 }

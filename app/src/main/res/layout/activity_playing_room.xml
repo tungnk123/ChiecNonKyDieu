@@ -220,7 +220,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
     </LinearLayout>
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_doan"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -241,6 +240,7 @@
             android:inputType="textCapWords"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -301,4 +301,33 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_giai"
         app:layout_constraintTop_toBottomOf="@+id/til_doan" />
+
+    <FrameLayout
+        android:id="@+id/ll_wheel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_giai"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <rubikstudio.library.LuckyWheelView
+            android:id="@+id/luckyWheel"
+            android:layout_width="360dp"
+            android:layout_height="360dp"
+            android:layout_marginTop="36dp"
+            app:lkwCenterImage="@drawable/ic_hint"
+            app:lkwCursor="@drawable/ic_cursor"
+            app:lkwEdgeColor="@color/orange"
+            app:lkwEdgeWidth="16"
+            android:translationZ="-10dp"
+            app:lkwSecondaryTextSize="16sp"
+            app:lkwTopTextColor="@color/white"
+            app:lkwTopTextPadding="8dp"
+            app:lkwTopTextSize="12sp"
+
+            android:clickable="false" /> <!-- Set clickable to false -->
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
