@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.chiecnonkydieu.databinding.ActivityMainBinding
 import com.example.chiecnonkydieu.ui.CreateRoomActivity
+import com.example.chiecnonkydieu.ui.PlayingRoomActivity
 import com.example.chiecnonkydieu.ui.SearchRoomActivity
 import com.example.chiecnonkydieu.ui.WaitingRoomActivity
 import com.google.firebase.Firebase
@@ -35,6 +36,9 @@ class MainActivity : AppCompatActivity() {
 //
 //        val intent = Intent(this, WaitingRoomActivity::class.java)
 //        startActivity(intent)
+        binding.btnBatDau.setOnClickListener {
+            goToPlayingRoom()
+        }
 
         binding.btnTaoPhong.setOnClickListener {
             val intent = Intent(this, CreateRoomActivity::class.java)
@@ -46,5 +50,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+    private fun goToPlayingRoom() {
+        // TODO Set cung
+        val intent = Intent(this, PlayingRoomActivity::class.java)
+        intent.putExtra("room_id", "7232")
+        startActivity(intent)
     }
 }

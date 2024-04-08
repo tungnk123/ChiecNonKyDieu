@@ -19,5 +19,10 @@
     <string name="nhap_1_ky_tu">Nhập 1 ký tự</string>
     <string name="btn_doan">Đoán</string>
     <string name="btn_doanCaTu">Giải</string>
+    <string name="btn_quay">Quay</string>
     <string name="hint">Hint</string>
+
+    <string name="title_denLuotCuaBan">Đến lượt của bạn</string>
+    <string name="con_lai_x_giay">Còn lại {O} s</string>
+    <string name="nhap_loi_giai">Nhập lời giải</string>
 </resources>

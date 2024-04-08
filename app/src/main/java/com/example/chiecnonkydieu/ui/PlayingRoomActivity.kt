@@ -1,8 +1,16 @@
 package com.example.chiecnonkydieu.ui
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.text.InputType
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -14,6 +22,7 @@ import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
 import com.example.chiecnonkydieu.databinding.ActivityPlayingRoomBinding
 import kotlinx.coroutines.launch
+
 
 class PlayingRoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlayingRoomBinding
@@ -38,6 +47,22 @@ class PlayingRoomActivity : AppCompatActivity() {
         GameData.gameModel.observe(this, Observer { gameModel ->
             updateUi(gameModel)
         })
+
+        binding.btnDoan.setOnClickListener {
+            Toast.makeText(this, "Doan click", Toast.LENGTH_LONG).show()
+            if (binding.edtDoan.text.toString() == "A") {
+                // TODO
+            }
+        }
+
+        binding.btnGiai.setOnClickListener {
+            Toast.makeText(this, "Giai click", Toast.LENGTH_LONG).show()
+            showDialog()
+        }
+
+        binding.iconButton.setOnClickListener {
+            Toast.makeText(this, "Hint click", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun updateUi(gameModel: GameModel?) {
@@ -47,6 +72,28 @@ class PlayingRoomActivity : AppCompatActivity() {
             updatePlayerList(gameModel)
             updateCurrentQuestion(gameModel)
         }
+
+    }
+
+    private fun showDialog() {
+        var m_Text: String = ""
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Nhập lời giải cho câu hỏi")
+        val viewInflated = LayoutInflater.from(this).inflate(R.layout.dialog_edittext, null, false)
+        val input = viewInflated.findViewById<EditText>(R.id.input)
+        builder.setView(viewInflated)
+
+        builder.setPositiveButton(android.R.string.ok) { dialog, which ->
+            dialog.dismiss()
+            m_Text = input.text.toString()
+        }
+
+        builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+            dialog.cancel()
+        }
+
+        builder.show()
+
 
     }
 
