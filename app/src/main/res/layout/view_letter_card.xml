@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/letter_card_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view_letter_cards"
+        android:layout_width="28dp"
+        android:layout_height="40dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true"
+        app:strokeColor="@color/orange"
+        app:strokeWidth="2dp"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/text_card_letter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textAlignment="center"
+            tools:ignore="RtlCompat"
+            tools:text="&#8203;"/>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

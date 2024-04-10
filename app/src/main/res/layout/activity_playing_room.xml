@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".ui.PlayingRoomActivity">
+    tools:context=".ui.playingRoom.PlayingRoomActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -218,7 +218,19 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_letter_cards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_gravity="center"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal"
+            tools:itemCount="11"
+            tools:listitem="@layout/view_letter_card" />
     </LinearLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_doan"

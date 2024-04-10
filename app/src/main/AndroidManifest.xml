@@ -16,7 +16,7 @@
             android:name=".ui.wheel.WheelActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.PlayingRoomActivity"
+            android:name=".ui.playingRoom.PlayingRoomActivity"
             android:launchMode="singleTop"
             android:exported="false" />
         <activity

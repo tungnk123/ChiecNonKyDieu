@@ -3,13 +3,18 @@ package com.example.chiecnonkydieu.ui.wheel
 import android.content.Context
 import android.graphics.Color
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.chiecnonkydieu.R
+import com.example.chiecnonkydieu.data.LetterCard
 import rubikstudio.library.model.LuckyItem
 class WheelViewModel: ViewModel() {
     private val _luckyItemsList: MutableList<LuckyItem> = mutableListOf()
     val luckyItemsList:List<LuckyItem> = _luckyItemsList
 
+    private val _letterCardList = MutableLiveData<MutableList<LetterCard>>()
+    val letterCardList: LiveData<MutableList<LetterCard>> = _letterCardList
     fun initLuckyItemList(context: Context) {
         val luckyItem: LuckyItem = LuckyItem()
         luckyItem.secondaryText = "100"

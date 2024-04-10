@@ -8,7 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.chiecnonkydieu.databinding.ActivityMainBinding
 import com.example.chiecnonkydieu.ui.CreateRoomActivity
-import com.example.chiecnonkydieu.ui.PlayingRoomActivity
+import com.example.chiecnonkydieu.ui.playingRoom.PlayingRoomActivity
 import com.example.chiecnonkydieu.ui.SearchRoomActivity
 import com.example.chiecnonkydieu.ui.wheel.WheelActivity
 

@@ -7,10 +7,11 @@ data class GameModel(
     val winner: String = "",
     var gameStatus: GameStatus = GameStatus.CREATED,
     val playersList: MutableList<Player> = mutableListOf<Player>(),
-    val currentPlayer: Player = Player(),
+    var currentPlayer: Player = Player(),
     val currentQuestion: String = "",
     val currentAnswer: String = "HA NOI",
-    val currentGuess: String = " A N  "
+    val guessesCharacters: MutableList<String> = mutableListOf(),
+    val letterCardList: MutableList<LetterCard> = mutableListOf()
 
 )
 

@@ -12,6 +12,7 @@ import com.example.chiecnonkydieu.R
 import com.example.chiecnonkydieu.data.GameData
 import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
+import com.example.chiecnonkydieu.data.LetterCard
 import com.example.chiecnonkydieu.data.Player
 import com.example.chiecnonkydieu.databinding.ActivityCreateRoomBinding
 import kotlinx.coroutines.launch
@@ -46,7 +47,16 @@ class CreateRoomActivity : AppCompatActivity() {
                 val gameModel: GameModel = GameModel(
                     gameStatus = GameStatus.CREATED,
                     gameId = binding.tvMaPhong.text.toString().toInt(),
-                    currentQuestion = "Thủ đô của Việt Nam nằm ở đâu?"
+                    currentQuestion = "Thủ đô của Việt Nam nằm ở đâu?",
+                    guessesCharacters = mutableListOf(),
+                    letterCardList = mutableListOf(
+                        LetterCard("H"),
+                        LetterCard("A"),
+                        LetterCard(" "),
+                        LetterCard("N"),
+                        LetterCard("O"),
+                        LetterCard("I"),
+                    )
                 )
                 gameModel.playersList.add(Player(binding.edtName.text.toString()))
                 GameData.saveGameModel(

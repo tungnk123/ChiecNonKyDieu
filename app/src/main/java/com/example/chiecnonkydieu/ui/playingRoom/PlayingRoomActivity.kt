@@ -1,11 +1,8 @@
-package com.example.chiecnonkydieu.ui
+package com.example.chiecnonkydieu.ui.playingRoom
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -13,25 +10,35 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.chiecnonkydieu.R
+import com.example.chiecnonkydieu.adapters.LetterCardAdapter
 import com.example.chiecnonkydieu.data.GameData
 import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
+import com.example.chiecnonkydieu.data.LetterCard
 import com.example.chiecnonkydieu.databinding.ActivityPlayingRoomBinding
 import com.example.chiecnonkydieu.ui.wheel.WheelActivity
 import com.example.chiecnonkydieu.ui.wheel.WheelViewModel
+import com.google.android.material.carousel.CarouselLayoutManager
 import kotlinx.coroutines.launch
 import rubikstudio.library.LuckyWheelView
 
 
 class PlayingRoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlayingRoomBinding
+    // TODO
+
+    lateinit var adapter: LetterCardAdapter
+    lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -52,21 +59,30 @@ class PlayingRoomActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-
+        val playingRoomViewModel: PlayingRoomViewModel by viewModels()
         lifecycleScope.launch {
             GameData.fetchGameModel(intent.getStringExtra("room_id").toString().toInt())
-
         }
 
         GameData.gameModel.observe(this, Observer { gameModel ->
             updateUi(gameModel)
         })
 
+        //Setup recyclerview
+        recyclerView = binding.recyclerviewLetterCards
+        val layoutManager = LinearLayoutManager(this)
+
+        layoutManager.orientation = LinearLayoutManager.HORIZONTAL // Set the orientation to horizontal if needed
+        recyclerView.layoutManager = layoutManager
+        adapter = LetterCardAdapter(GameData.gameModel.value!!.letterCardList)
+        recyclerView.adapter = adapter
+
+
         binding.btnDoan.setOnClickListener {
-            Toast.makeText(this, "Doan click", Toast.LENGTH_LONG).show()
-            if (binding.edtDoan.text.toString() == "A") {
-                // TODO
+            if (playingRoomViewModel.isUserInputMatch(binding.edtDoan.text.toString()[0])) {
+                updateAdapterAndRecyclerView()
             }
+
         }
 
         binding.btnGiai.setOnClickListener {
@@ -92,9 +108,9 @@ class PlayingRoomActivity : AppCompatActivity() {
         binding.llWheel.setOnClickListener {
             goToWheelActivity()
         }
-
-
     }
+
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
@@ -111,7 +127,6 @@ class PlayingRoomActivity : AppCompatActivity() {
             updatePlayerList(gameModel)
             updateCurrentQuestion(gameModel)
         }
-
     }
 
     private fun showDialog() {
@@ -182,5 +197,11 @@ class PlayingRoomActivity : AppCompatActivity() {
                 binding.tvScore3.text = gameModel.playersList[2].score.toString()
             }
         }
+    }
+
+    private fun updateAdapterAndRecyclerView() {
+        adapter = LetterCardAdapter(GameData.gameModel.value!!.letterCardList)
+        recyclerView.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
 }
