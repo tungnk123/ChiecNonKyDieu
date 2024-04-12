@@ -12,11 +12,11 @@ import com.example.chiecnonkydieu.R
 import com.example.chiecnonkydieu.data.GameData
 import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
-import com.example.chiecnonkydieu.data.LetterCard
-import com.example.chiecnonkydieu.data.Player
+import com.example.chiecnonkydieu.data.model.LetterCard
+import com.example.chiecnonkydieu.data.model.Player
+import com.example.chiecnonkydieu.data.questionAnswerList
 import com.example.chiecnonkydieu.databinding.ActivityCreateRoomBinding
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class CreateRoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateRoomBinding
@@ -47,16 +47,11 @@ class CreateRoomActivity : AppCompatActivity() {
                 val gameModel: GameModel = GameModel(
                     gameStatus = GameStatus.CREATED,
                     gameId = binding.tvMaPhong.text.toString().toInt(),
-                    currentQuestion = "Thủ đô của Việt Nam nằm ở đâu?",
+                    currentQuestionAnswer = questionAnswerList[1],
                     guessesCharacters = mutableListOf(),
-                    letterCardList = mutableListOf(
-                        LetterCard("H"),
-                        LetterCard("A"),
-                        LetterCard(" "),
-                        LetterCard("N"),
-                        LetterCard("O"),
-                        LetterCard("I"),
-                    )
+                    currentPlayer = Player(name = binding.edtName.text.toString()),
+                    letterCardList = getLetterCardListFromAnswer(questionAnswerList[1].answer),
+                    previousQuestionAnswers = mutableListOf()
                 )
                 gameModel.playersList.add(Player(binding.edtName.text.toString()))
                 GameData.saveGameModel(
@@ -72,6 +67,14 @@ class CreateRoomActivity : AppCompatActivity() {
         return true
     }
 
+
+    fun getLetterCardListFromAnswer(answer: String): MutableList<LetterCard>{
+        val list = mutableListOf<LetterCard>()
+        for (i in answer.indices) {
+            list.add(LetterCard(answer[i].toString()))
+        }
+        return list
+    }
     fun goToWaitingRooom() {
         val intent = Intent(this, WaitingRoomActivity::class.java)
         intent.putExtra("room_id", binding.tvMaPhong.text.toString())

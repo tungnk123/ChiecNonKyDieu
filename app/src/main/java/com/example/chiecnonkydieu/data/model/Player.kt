@@ -1,4 +1,4 @@
-package com.example.chiecnonkydieu.data
+package com.example.chiecnonkydieu.data.model
 
 data class Player(
     val name: String = "Player",

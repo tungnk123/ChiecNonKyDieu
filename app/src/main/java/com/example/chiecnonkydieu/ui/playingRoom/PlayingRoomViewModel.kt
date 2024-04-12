@@ -1,10 +1,13 @@
 package com.example.chiecnonkydieu.ui.playingRoom
 
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import com.example.chiecnonkydieu.data.GameData
 import com.example.chiecnonkydieu.data.GameModel
-import com.example.chiecnonkydieu.data.Player
-import java.util.Locale
+import com.example.chiecnonkydieu.data.GameStatus
+import com.example.chiecnonkydieu.data.model.LetterCard
+import com.example.chiecnonkydieu.data.model.Player
+import com.example.chiecnonkydieu.data.model.QuestionAnswer
 
 class PlayingRoomViewModel: ViewModel() {
 
@@ -21,29 +24,47 @@ class PlayingRoomViewModel: ViewModel() {
         val playerInputStringLC = playerInputChar.lowercaseChar().toString()
         val playerInputCharLC = playerInputChar.lowercaseChar()
         gameModel?.let {
-            if (gameModel.currentAnswer.contains(playerInputStringLC, ignoreCase = true) &&
+            if (gameModel.currentQuestionAnswer.answer.contains(
+                    playerInputStringLC,
+                    ignoreCase = true
+                ) &&
                 ! gameModel.guessesCharacters.contains(playerInputStringLC)) {
                 saveGuessedChar(playerInputCharLC)
-                gameModel.guessesCharacters.add(playerInputStringLC)
                 gameModel.letterCardList.filter {
                     it.letter.toLowerCase() == playerInputStringLC
                 }
                     .forEach{
                         it.isHidden = false
                 }
+                updateStatusGameModel(GameStatus.INPROGRESS)
+                updateScore(gameModel)
                 GameData.saveGameModel(gameModel)
                 return true
             }
             else {
                 return false;
             }
-
         }
 
         return false
     }
 
-    fun setQuestionAndCurrentWordToBeGuessed(): Boolean {
+    fun setQuestionAndCurrentWordToBeGuessed(questionAnswer: QuestionAnswer): Boolean {
+        val gameModel: GameModel? = GameData.gameModel.value
+        gameModel?.let {
+            if (!gameModel.previousQuestionAnswers.contains(questionAnswer)) {
+                gameModel.previousQuestionAnswers.add(questionAnswer)
+                gameModel.currentQuestionAnswer = questionAnswer
+                val tempLetterCardList = mutableListOf<LetterCard>()
+                for (i in questionAnswer.answer.indices) {
+                    tempLetterCardList.add(LetterCard(questionAnswer.answer[i].toString()))
+                }
+                gameModel.letterCardList = tempLetterCardList
+                GameData.saveGameModel(gameModel)
+                return true
+            }
+            return false
+        }
         return false
     }
 
@@ -54,11 +75,24 @@ class PlayingRoomViewModel: ViewModel() {
         }
     }
 
-
-    private fun updateScore(indexPlayer: Int, score: Int) {
+    fun updateStatusGameModel(gameStatus: GameStatus) {
         val gameModel: GameModel? = GameData.gameModel.value
         gameModel?.let {
-            gameModel.playersList[indexPlayer].score += score
+            gameModel.gameStatus = gameStatus
+        }
+    }
+
+    fun updateScore(gameModel: GameModel) {
+        gameModel.let {
+            val currentPlayer = gameModel.currentPlayer
+            val currentSpinValue = gameModel.currentSpinValue
+            val index = gameModel.playersList.indexOfFirst { it.name == currentPlayer.name }
+            gameModel.playersList[index].score += currentSpinValue.toInt()
+            if (currentSpinValue.isDigitsOnly()) {
+
+            } else {
+
+            }
         }
     }
 
@@ -73,10 +107,27 @@ class PlayingRoomViewModel: ViewModel() {
         // TODO
     }
 
-    private fun checkRoundWin(): Boolean {
+
+    fun checkRoundWin(): Boolean {
+        for (i in gameModel.letterCardList.indices) {
+            if (gameModel.letterCardList[i].isHidden) {
+                return false
+            }
+        }
         return true
+        GameData.saveGameModel(gameModel)
     }
-    private fun checkGameWin(): Boolean {
+
+    fun makeAllLetterCardReveal() {
+        for (i in gameModel.letterCardList.indices) {
+            if (gameModel.letterCardList[i].isHidden) {
+                gameModel.letterCardList[i].isHidden = false
+            }
+        }
+        GameData.saveGameModel(gameModel)
+    }
+
+    fun checkGameWin(): Boolean {
         return true
     }
 

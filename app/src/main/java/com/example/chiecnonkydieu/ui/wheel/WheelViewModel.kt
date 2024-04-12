@@ -1,13 +1,16 @@
 package com.example.chiecnonkydieu.ui.wheel
 
 import android.content.Context
-import android.graphics.Color
 import androidx.core.content.ContextCompat
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.chiecnonkydieu.R
-import com.example.chiecnonkydieu.data.LetterCard
+import com.example.chiecnonkydieu.data.GameData
+import com.example.chiecnonkydieu.data.GameModel
+import com.example.chiecnonkydieu.data.GameStatus
+import com.example.chiecnonkydieu.data.model.LetterCard
 import rubikstudio.library.model.LuckyItem
 class WheelViewModel: ViewModel() {
     private val _luckyItemsList: MutableList<LuckyItem> = mutableListOf()
@@ -88,5 +91,22 @@ class WheelViewModel: ViewModel() {
         else {
             _luckyItemsList[index].topText
         }
+    }
+
+    fun updateStatusGameModel(gameStatus: GameStatus) {
+        val gameModel: GameModel? = GameData.gameModel.value
+        gameModel?.let {
+            gameModel.gameStatus = gameStatus
+        }
+    }
+
+    fun updateCurrentSpinValue(spinValue: String) {
+        val gameModel: GameModel? = GameData.gameModel.value
+        gameModel?.let {
+            gameModel.currentSpinValue = spinValue
+            updateStatusGameModel(GameStatus.GUESS)
+            GameData.saveGameModel(gameModel)
+        }
+
     }
 }
