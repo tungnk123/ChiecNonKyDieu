@@ -57,4 +57,7 @@ dependencies {
     //wheel
     implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.7")
     implementation ("com.github.thanhniencung:LuckyWheel:a6110f5128")
+
+    // DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 }

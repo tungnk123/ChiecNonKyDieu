@@ -1,17 +1,33 @@
 package com.example.chiecnonkydieu.ui.playingRoom
 
+import android.content.Context
 import androidx.core.text.isDigitsOnly
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.chiecnonkydieu.data.GameData
+import com.example.chiecnonkydieu.data.GameData.gameModel
 import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
 import com.example.chiecnonkydieu.data.model.LetterCard
 import com.example.chiecnonkydieu.data.model.Player
 import com.example.chiecnonkydieu.data.model.QuestionAnswer
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+
+
 
 class PlayingRoomViewModel: ViewModel() {
 
     private lateinit var gameModel: GameModel
+
 
     init {
         if (GameData.gameModel.value != null) {
@@ -38,14 +54,17 @@ class PlayingRoomViewModel: ViewModel() {
                 }
                 updateStatusGameModel(GameStatus.INPROGRESS)
                 updateScore(gameModel)
+                changeTurn()
                 GameData.saveGameModel(gameModel)
                 return true
             }
             else {
+                updateStatusGameModel(GameStatus.INPROGRESS)
+                changeTurn()
+                GameData.saveGameModel(gameModel)
                 return false;
             }
         }
-
         return false
     }
 
@@ -60,6 +79,7 @@ class PlayingRoomViewModel: ViewModel() {
                     tempLetterCardList.add(LetterCard(questionAnswer.answer[i].toString()))
                 }
                 gameModel.letterCardList = tempLetterCardList
+
                 GameData.saveGameModel(gameModel)
                 return true
             }
@@ -96,10 +116,18 @@ class PlayingRoomViewModel: ViewModel() {
         }
     }
 
-    private fun changeTurn(player: Player) {
+
+
+    private fun changeTurn() {
         val gameModel: GameModel? = GameData.gameModel.value
+        var indexNewPlayer = -1
         gameModel?.let {
-            gameModel.currentPlayer = player
+            for (i in gameModel.playersList.indices) {
+                if (gameModel.playersList[i].name == gameModel.currentPlayer.name) {
+                    indexNewPlayer = (i + 1) % gameModel.playersList.size
+                }
+            }
+            gameModel.currentPlayer = gameModel.playersList[indexNewPlayer]
         }
     }
 

@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:elevation="20dp"
         android:orientation="vertical"
-        app:cardBackgroundColor="@color/orange"
+        app:cardBackgroundColor="@color/background"
         app:cardCornerRadius="20dp"
         app:contentPadding="10dp"
         app:layout_constraintEnd_toStartOf="@+id/cv_player2"

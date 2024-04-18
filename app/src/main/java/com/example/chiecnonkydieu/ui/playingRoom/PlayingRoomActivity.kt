@@ -1,5 +1,6 @@
 package com.example.chiecnonkydieu.ui.playingRoom
 
+import android.content.Context
 import android.content.Intent
 import android.opengl.Visibility
 import android.os.Bundle
@@ -18,24 +19,38 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.marginTop
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chiecnonkydieu.R
-import com.example.chiecnonkydieu.adapters.LetterCardAdapter
+import com.example.chiecnonkydieu.ui.adapters.LetterCardAdapter
 import com.example.chiecnonkydieu.data.GameData
 import com.example.chiecnonkydieu.data.GameData.gameModel
 import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
 import com.example.chiecnonkydieu.data.questionAnswerList
 import com.example.chiecnonkydieu.databinding.ActivityPlayingRoomBinding
+import com.example.chiecnonkydieu.ui.dataStore
 import com.example.chiecnonkydieu.ui.wheel.WheelActivity
 import com.example.chiecnonkydieu.ui.wheel.WheelViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import rubikstudio.library.LuckyWheelView
 
 
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "player_data")
+val CURRENT_PLAYER = stringPreferencesKey("current_player")
 class PlayingRoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlayingRoomBinding
     // TODO
@@ -80,7 +95,7 @@ class PlayingRoomActivity : AppCompatActivity() {
 
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL // Set the orientation to horizontal if needed
         recyclerView.layoutManager = layoutManager
-        adapter = LetterCardAdapter(GameData.gameModel.value!!.letterCardList)
+        adapter = LetterCardAdapter(gameModel.value!!.letterCardList)
         recyclerView.adapter = adapter
 
 
@@ -100,7 +115,11 @@ class PlayingRoomActivity : AppCompatActivity() {
         }
 
         binding.btnGiai.setOnClickListener {
-            showDialog(playingRoomViewModel)
+//            showDialog(playingRoomViewModel)
+            lifecycleScope.launch {
+                Toast.makeText(applicationContext, "Current player: " + checkCurrentPlayer().toString(), Toast.LENGTH_LONG).show()
+            }
+
 
         }
 
@@ -118,7 +137,12 @@ class PlayingRoomActivity : AppCompatActivity() {
         luckyWheelView.setData(wheelViewModel.luckyItemsList)
         luckyWheelView.isTouchEnabled = false
         binding.llWheel.setOnClickListener {
-            goToWheelActivity()
+            if (checkCurrentPlayer()) {
+                goToWheelActivity()
+            }
+            else {
+                Toast.makeText(applicationContext, "Không phải lượt của bạn!", Toast.LENGTH_LONG).show()
+            }
         }
 
 
@@ -134,6 +158,15 @@ class PlayingRoomActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+
+    fun checkCurrentPlayer(): Boolean {
+        var savedPlayer: String? = ""
+        lifecycleScope.launchWhenCreated {
+            savedPlayer = dataStore.data.first()[CURRENT_PLAYER]
+        }
+        return savedPlayer == GameData.gameModel.value?.currentPlayer?.name
+
+    }
     private fun updateUi(gameModel: GameModel?) {
         if (gameModel != null) {
             updatePlayerList(gameModel)
@@ -154,8 +187,16 @@ class PlayingRoomActivity : AppCompatActivity() {
                     break
                 }
             }
-            binding.luckyWheel.setRound(0)
-            binding.luckyWheel.startLuckyWheelWithTargetIndex(indexWheel)
+            // Kiem tra xem neu la nguoi choi hien tai thi chi cho round la 0, neu khong thi cho 3
+            if (true) {
+                // TODO
+                binding.luckyWheel.setRound(0)
+                binding.luckyWheel.startLuckyWheelWithTargetIndex(indexWheel)
+            }
+            else {
+                binding.luckyWheel.setRound(3)
+                binding.luckyWheel.startLuckyWheelWithTargetIndex(indexWheel)
+            }
         }
     }
     fun updateVisibility(gameModel: GameModel) {
@@ -166,7 +207,7 @@ class PlayingRoomActivity : AppCompatActivity() {
             binding.btnDoan.visibility = View.GONE
             binding.btnGiai.visibility = View.GONE
         }
-        else {
+        else if (checkCurrentPlayer()){
             binding.llHint.visibility = View.VISIBLE
             binding.tilDoan.visibility = View.VISIBLE
             binding.btnDoan.visibility = View.VISIBLE
@@ -217,6 +258,8 @@ class PlayingRoomActivity : AppCompatActivity() {
                 binding.imgLogo1.setImageResource(R.drawable.ic_man)
                 binding.tvPlayerName1.text = gameModel.playersList[0].name
                 binding.tvScore1.text = gameModel.playersList[0].score.toString()
+                binding.cvPlayer2.visibility = View.INVISIBLE
+                binding.cvPlayer3.visibility = View.INVISIBLE
             }
             2 -> {
                 // player1 and player 2
@@ -229,7 +272,7 @@ class PlayingRoomActivity : AppCompatActivity() {
 
                 binding.tvScore1.text = gameModel.playersList[0].score.toString()
                 binding.tvScore2.text = gameModel.playersList[1].score.toString()
-
+                binding.cvPlayer3.visibility = View.INVISIBLE
 
             }
 
@@ -249,10 +292,31 @@ class PlayingRoomActivity : AppCompatActivity() {
                 binding.tvScore3.text = gameModel.playersList[2].score.toString()
             }
         }
+
+        val colorResId = R.color.orange
+        val currentPlayerColor = ContextCompat.getColor(this, colorResId)
+
+        val colorResBackgroundId = R.color.background
+        val backgroundColor = ContextCompat.getColor(this, colorResBackgroundId)
+        if (gameModel.currentPlayer.name == binding.tvPlayerName1.text.toString()) {
+            binding.cvPlayer1.setCardBackgroundColor(currentPlayerColor)
+            binding.cvPlayer2.setCardBackgroundColor(backgroundColor)
+            binding.cvPlayer3.setCardBackgroundColor(backgroundColor)
+        }
+        else if (gameModel.currentPlayer.name == binding.tvPlayerName2.text.toString()){
+            binding.cvPlayer2.setCardBackgroundColor(currentPlayerColor)
+            binding.cvPlayer1.setCardBackgroundColor(backgroundColor)
+            binding.cvPlayer3.setCardBackgroundColor(backgroundColor)
+        }
+        else {
+            binding.cvPlayer3.setCardBackgroundColor(currentPlayerColor)
+            binding.cvPlayer2.setCardBackgroundColor(backgroundColor)
+            binding.cvPlayer1.setCardBackgroundColor(backgroundColor)
+        }
     }
 
     private fun updateAdapterAndRecyclerView() {
-        adapter = LetterCardAdapter(GameData.gameModel.value!!.letterCardList)
+        adapter = LetterCardAdapter(gameModel.value!!.letterCardList)
         recyclerView.adapter = adapter
         adapter.notifyDataSetChanged()
     }

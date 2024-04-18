@@ -1,12 +1,19 @@
 package com.example.chiecnonkydieu.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import com.example.chiecnonkydieu.R
 import com.example.chiecnonkydieu.data.GameData
@@ -16,10 +23,19 @@ import com.example.chiecnonkydieu.data.model.LetterCard
 import com.example.chiecnonkydieu.data.model.Player
 import com.example.chiecnonkydieu.data.questionAnswerList
 import com.example.chiecnonkydieu.databinding.ActivityCreateRoomBinding
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "player_data")
+val CURRENT_PLAYER = stringPreferencesKey("current_player")
 class CreateRoomActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityCreateRoomBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -57,6 +73,8 @@ class CreateRoomActivity : AppCompatActivity() {
                 GameData.saveGameModel(
                     gameModel
                 )
+                saveCurrentPlayerToPreferencesDataStore(binding.edtName.text.toString())
+
             }
             goToWaitingRooom()
         }
@@ -68,14 +86,25 @@ class CreateRoomActivity : AppCompatActivity() {
     }
 
 
-    fun getLetterCardListFromAnswer(answer: String): MutableList<LetterCard>{
+    private fun saveCurrentPlayerToPreferencesDataStore(currentPlayer: String) {
+        lifecycleScope.launch {
+            dataStore.edit { settings ->
+                settings[CURRENT_PLAYER] = currentPlayer
+            }
+            val savedPlayer = dataStore.data.first()[CURRENT_PLAYER]
+            Log.d("DataStore", "Saved player from create: $savedPlayer")
+        }
+    }
+
+
+    private fun getLetterCardListFromAnswer(answer: String): MutableList<LetterCard>{
         val list = mutableListOf<LetterCard>()
         for (i in answer.indices) {
             list.add(LetterCard(answer[i].toString()))
         }
         return list
     }
-    fun goToWaitingRooom() {
+    private fun goToWaitingRooom() {
         val intent = Intent(this, WaitingRoomActivity::class.java)
         intent.putExtra("room_id", binding.tvMaPhong.text.toString())
         startActivity(intent)

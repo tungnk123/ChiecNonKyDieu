@@ -1,4 +1,4 @@
-package com.example.chiecnonkydieu.adapters
+package com.example.chiecnonkydieu.ui.adapters
 
 import android.graphics.Color
 import android.view.LayoutInflater

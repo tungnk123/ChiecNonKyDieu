@@ -1,5 +1,6 @@
 package com.example.chiecnonkydieu.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -8,18 +9,25 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.example.chiecnonkydieu.R
 import com.example.chiecnonkydieu.data.GameData
 import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
+import com.example.chiecnonkydieu.data.model.Player
 import com.example.chiecnonkydieu.databinding.ActivityWaitingRoomBinding
 import com.example.chiecnonkydieu.ui.playingRoom.PlayingRoomActivity
 import kotlinx.coroutines.launch
 
 class WaitingRoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWaitingRoomBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -137,6 +145,7 @@ class WaitingRoomActivity : AppCompatActivity() {
         }
 
     }
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
