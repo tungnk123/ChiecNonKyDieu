@@ -108,9 +108,11 @@ class PlayingRoomActivity : AppCompatActivity() {
             if (playingRoomViewModel.isUserInputMatch(binding.edtDoan.text.toString()[0])) {
                 updateAdapterAndRecyclerView()
                 Toast.makeText(this, "Bạn đoán đúng rồi", Toast.LENGTH_LONG).show()
-//                if (playingRoomViewModel.checkRoundWin() && checkCurrentPlayer()) {
+                if (playingRoomViewModel.checkRoundWin() && checkCurrentPlayer()) {
 //                    showWinnerDialog(playingRoomViewModel)
-//                }
+                    Toast.makeText(this, "Da doan xong", Toast.LENGTH_LONG).show()
+
+                }
             }
             else {
                 Toast.makeText(this, "Bạn đoán sai rồi", Toast.LENGTH_LONG).show()
@@ -130,7 +132,11 @@ class PlayingRoomActivity : AppCompatActivity() {
 
         binding.iconButton.setOnClickListener {
             Toast.makeText(this, "Hint click", Toast.LENGTH_LONG).show()
-            playingRoomViewModel.setQuestionAndCurrentWordToBeGuessed(questionAnswerList.random())
+            var questionAnswerToBeGuess = questionAnswerList.random()
+            while (GameData.gameModel.value!!.previousQuestionAnswers.contains(questionAnswerToBeGuess)) {
+                questionAnswerToBeGuess = questionAnswerList.random()
+            }
+            playingRoomViewModel.setQuestionAndCurrentWordToBeGuessed(questionAnswerToBeGuess)
             updateCurrentQuestionAndAnswer(GameData.gameModel.value!!)
         }
 
@@ -258,7 +264,11 @@ class PlayingRoomActivity : AppCompatActivity() {
 
         builder.setPositiveButton(R.string.btn_next) { dialog, which ->
             viewModel.updateStatusGameModel(GameStatus.INPROGRESS)
-            viewModel.setQuestionAndCurrentWordToBeGuessed(questionAnswerList.random())
+            var questionAnswerToBeGuess = questionAnswerList.random()
+            while (GameData.gameModel.value!!.previousQuestionAnswers.contains(questionAnswerToBeGuess)) {
+                questionAnswerToBeGuess = questionAnswerList.random()
+            }
+            playingRoomViewModel.setQuestionAndCurrentWordToBeGuessed(questionAnswerToBeGuess)
             updateCurrentQuestionAndAnswer(GameData.gameModel.value!!)
             Toast.makeText(applicationContext, "choi tiep click", Toast.LENGTH_LONG).show()
             dialog.dismiss()

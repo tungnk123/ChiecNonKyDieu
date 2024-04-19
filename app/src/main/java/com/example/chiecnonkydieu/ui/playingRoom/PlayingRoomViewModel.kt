@@ -109,10 +109,14 @@ class PlayingRoomViewModel: ViewModel() {
             val currentPlayer = gameModel.currentPlayer
             val currentSpinValue = gameModel.currentSpinValue
             val index = gameModel.playersList.indexOfFirst { it.name == currentPlayer.name }
-            gameModel.playersList[index].score += currentSpinValue.toInt()
             if (currentSpinValue.isDigitsOnly()) {
+                gameModel.playersList[index].score += currentSpinValue.toInt()
+            } else if (currentSpinValue == "ITEM"){
+                // TODO
+            } else if (currentSpinValue == "MISS_TURN") {
 
-            } else {
+            }
+            else if (currentSpinValue == "EXTRA_TURN") {
 
             }
         }
