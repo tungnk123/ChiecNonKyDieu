@@ -28,6 +28,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chiecnonkydieu.MainActivity
 import com.example.chiecnonkydieu.R
 import com.example.chiecnonkydieu.ui.adapters.LetterCardAdapter
 import com.example.chiecnonkydieu.data.GameData
@@ -36,6 +37,7 @@ import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
 import com.example.chiecnonkydieu.data.questionAnswerList
 import com.example.chiecnonkydieu.databinding.ActivityPlayingRoomBinding
+import com.example.chiecnonkydieu.ui.WaitingRoomActivity
 import com.example.chiecnonkydieu.ui.dataStore
 import com.example.chiecnonkydieu.ui.wheel.WheelActivity
 import com.example.chiecnonkydieu.ui.wheel.WheelViewModel
@@ -53,7 +55,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 val CURRENT_PLAYER = stringPreferencesKey("current_player")
 class PlayingRoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlayingRoomBinding
-    // TODO
+    val playingRoomViewModel: PlayingRoomViewModel by viewModels()
 
     var indexWheel: Int = -1
     var currentValueWheel: String = ""
@@ -80,7 +82,7 @@ class PlayingRoomActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val playingRoomViewModel: PlayingRoomViewModel by viewModels()
+
         lifecycleScope.launch {
             GameData.fetchGameModel(intent.getStringExtra("room_id").toString().toInt())
         }
@@ -106,6 +108,9 @@ class PlayingRoomActivity : AppCompatActivity() {
             if (playingRoomViewModel.isUserInputMatch(binding.edtDoan.text.toString()[0])) {
                 updateAdapterAndRecyclerView()
                 Toast.makeText(this, "Bạn đoán đúng rồi", Toast.LENGTH_LONG).show()
+//                if (playingRoomViewModel.checkRoundWin() && checkCurrentPlayer()) {
+//                    showWinnerDialog(playingRoomViewModel)
+//                }
             }
             else {
                 Toast.makeText(this, "Bạn đoán sai rồi", Toast.LENGTH_LONG).show()
@@ -115,10 +120,10 @@ class PlayingRoomActivity : AppCompatActivity() {
         }
 
         binding.btnGiai.setOnClickListener {
-//            showDialog(playingRoomViewModel)
-            lifecycleScope.launch {
-                Toast.makeText(applicationContext, "Current player: " + checkCurrentPlayer().toString(), Toast.LENGTH_LONG).show()
-            }
+            showDialog(playingRoomViewModel)
+////            lifecycleScope.launch {
+////                Toast.makeText(applicationContext, "Current player: " + checkCurrentPlayer().toString(), Toast.LENGTH_LONG).show()
+////            }
 
 
         }
@@ -174,6 +179,10 @@ class PlayingRoomActivity : AppCompatActivity() {
             updateVisibility(gameModel)
             updateCurrentQuestionAndAnswer(gameModel)
             updateAdapterAndRecyclerView()
+            if (gameModel.gameStatus == GameStatus.ENDROUND && !checkCurrentPlayer()) {
+                showWinnerDialog(playingRoomViewModel)
+                playingRoomViewModel.updateStatusGameModel(GameStatus.WAITING_TO_CONTINUE)
+            }
         }
     }
 
@@ -227,7 +236,8 @@ class PlayingRoomActivity : AppCompatActivity() {
 
             if (input.text.toString() == GameData.gameModel.value!!.currentQuestionAnswer.answer) {
                 Toast.makeText(this, "giai thanh cong", Toast.LENGTH_LONG).show()
-                 viewModel.makeAllLetterCardReveal()
+                viewModel.makeAllLetterCardReveal()
+                showWinnerDialog(viewModel)
             }
             dialog.dismiss()
         }
@@ -237,9 +247,31 @@ class PlayingRoomActivity : AppCompatActivity() {
         }
 
         builder.show()
+    }
 
+    private fun showWinnerDialog(viewModel: PlayingRoomViewModel) {
 
+        viewModel.updateGameEndRound()
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Xin chức mừng")
+        builder.setMessage("Đáp án chính xác là: ${GameData.gameModel.value!!.currentQuestionAnswer.answer}")
 
+        builder.setPositiveButton(R.string.btn_next) { dialog, which ->
+            viewModel.updateStatusGameModel(GameStatus.INPROGRESS)
+            viewModel.setQuestionAndCurrentWordToBeGuessed(questionAnswerList.random())
+            updateCurrentQuestionAndAnswer(GameData.gameModel.value!!)
+            Toast.makeText(applicationContext, "choi tiep click", Toast.LENGTH_LONG).show()
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton(R.string.btn_thoat) { dialog, which ->
+            dialog.cancel()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finish()
+        }
+        builder.show()
 
     }
 

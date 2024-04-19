@@ -10,7 +10,7 @@ import com.example.chiecnonkydieu.R
 import com.example.chiecnonkydieu.data.GameData
 import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
-import com.example.chiecnonkydieu.data.model.LetterCard
+import com.example.chiecnonkydieu.model.LetterCard
 import rubikstudio.library.model.LuckyItem
 class WheelViewModel: ViewModel() {
     private val _luckyItemsList: MutableList<LuckyItem> = mutableListOf()

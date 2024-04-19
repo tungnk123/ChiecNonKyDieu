@@ -1,4 +1,4 @@
-package com.example.chiecnonkydieu.data.model
+package com.example.chiecnonkydieu.model
 
 data class QuestionAnswer(
     val question: String = "Thủ đô của Việt Nam nằm ở đâu?",

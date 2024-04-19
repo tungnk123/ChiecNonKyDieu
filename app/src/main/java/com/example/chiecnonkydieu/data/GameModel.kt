@@ -1,8 +1,8 @@
 package com.example.chiecnonkydieu.data
 
-import com.example.chiecnonkydieu.data.model.LetterCard
-import com.example.chiecnonkydieu.data.model.Player
-import com.example.chiecnonkydieu.data.model.QuestionAnswer
+import com.example.chiecnonkydieu.model.LetterCard
+import com.example.chiecnonkydieu.model.Player
+import com.example.chiecnonkydieu.model.QuestionAnswer
 
 data class GameModel(
     val gameId: Int = -1,
@@ -24,5 +24,7 @@ enum class GameStatus {
     JOINED2,
     INPROGRESS,
     GUESS,
+    ENDROUND,
+    WAITING_TO_CONTINUE,
     FINISHED
 }

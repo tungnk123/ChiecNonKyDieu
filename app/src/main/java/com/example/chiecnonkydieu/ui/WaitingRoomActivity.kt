@@ -20,7 +20,7 @@ import com.example.chiecnonkydieu.R
 import com.example.chiecnonkydieu.data.GameData
 import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
-import com.example.chiecnonkydieu.data.model.Player
+import com.example.chiecnonkydieu.model.Player
 import com.example.chiecnonkydieu.databinding.ActivityWaitingRoomBinding
 import com.example.chiecnonkydieu.ui.playingRoom.PlayingRoomActivity
 import kotlinx.coroutines.launch

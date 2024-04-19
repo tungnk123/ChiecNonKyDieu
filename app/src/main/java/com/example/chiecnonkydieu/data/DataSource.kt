@@ -2,7 +2,7 @@ package com.example.chiecnonkydieu.data
 
 import android.content.Context
 import com.example.chiecnonkydieu.R
-import com.example.chiecnonkydieu.data.model.QuestionAnswer
+import com.example.chiecnonkydieu.model.QuestionAnswer
 
 val questionAnswerList: List<QuestionAnswer> = mutableListOf(
     QuestionAnswer("Thủ đô của Việt Nam nằm ở đâu?", "HA NOI"),

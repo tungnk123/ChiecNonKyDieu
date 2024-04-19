@@ -10,11 +10,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chiecnonkydieu.data.GameData
 import com.example.chiecnonkydieu.data.GameData.gameModel
+import com.example.chiecnonkydieu.data.GameData.saveGameModel
 import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
-import com.example.chiecnonkydieu.data.model.LetterCard
-import com.example.chiecnonkydieu.data.model.Player
-import com.example.chiecnonkydieu.data.model.QuestionAnswer
+import com.example.chiecnonkydieu.model.LetterCard
+import com.example.chiecnonkydieu.model.Player
+import com.example.chiecnonkydieu.model.QuestionAnswer
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -79,7 +80,7 @@ class PlayingRoomViewModel: ViewModel() {
                     tempLetterCardList.add(LetterCard(questionAnswer.answer[i].toString()))
                 }
                 gameModel.letterCardList = tempLetterCardList
-
+                resetGuessedCharacter()
                 GameData.saveGameModel(gameModel)
                 return true
             }
@@ -103,6 +104,7 @@ class PlayingRoomViewModel: ViewModel() {
     }
 
     fun updateScore(gameModel: GameModel) {
+        // TODO xu ly item, extra turn, miss turn
         gameModel.let {
             val currentPlayer = gameModel.currentPlayer
             val currentSpinValue = gameModel.currentSpinValue
@@ -143,7 +145,7 @@ class PlayingRoomViewModel: ViewModel() {
             }
         }
         return true
-        GameData.saveGameModel(gameModel)
+
     }
 
     fun makeAllLetterCardReveal() {
@@ -152,12 +154,20 @@ class PlayingRoomViewModel: ViewModel() {
                 gameModel.letterCardList[i].isHidden = false
             }
         }
-        GameData.saveGameModel(gameModel)
+//        GameData.saveGameModel(gameModel)
     }
-
-    fun checkGameWin(): Boolean {
-        return true
+    fun resetGuessedCharacter() {
+        val gameModel: GameModel? = GameData.gameModel.value
+        gameModel?.let {
+            gameModel.guessesCharacters.clear()
+        }
     }
-
+    fun updateGameEndRound() {
+        val gameModel: GameModel? = GameData.gameModel.value
+        gameModel?.let {
+            gameModel.gameStatus = GameStatus.ENDROUND
+            GameData.saveGameModel(gameModel)
+        }
+    }
 
 }

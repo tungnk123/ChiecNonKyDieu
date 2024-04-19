@@ -18,7 +18,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import com.example.chiecnonkydieu.R
 import com.example.chiecnonkydieu.data.GameData
-import com.example.chiecnonkydieu.data.model.Player
+import com.example.chiecnonkydieu.model.Player
 import com.example.chiecnonkydieu.databinding.ActivitySearchRoomBinding
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first

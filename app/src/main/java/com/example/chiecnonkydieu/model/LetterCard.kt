@@ -1,4 +1,4 @@
-package com.example.chiecnonkydieu.data.model
+package com.example.chiecnonkydieu.model
 
 data class LetterCard(
     val letter: String = "A",

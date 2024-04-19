@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 import com.example.chiecnonkydieu.R
-import com.example.chiecnonkydieu.data.model.LetterCard
+import com.example.chiecnonkydieu.model.LetterCard
 import com.google.android.material.card.MaterialCardView
 
 class LetterCardAdapter(val letterCardList: List<LetterCard>): RecyclerView.Adapter<LetterCardAdapter.LetterCardViewHolder>() {
