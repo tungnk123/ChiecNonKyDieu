@@ -107,15 +107,16 @@ class PlayingRoomActivity : AppCompatActivity() {
         binding.btnDoan.setOnClickListener {
             if (playingRoomViewModel.isUserInputMatch(binding.edtDoan.text.toString()[0])) {
                 updateAdapterAndRecyclerView()
-                Toast.makeText(this, "Bạn đoán đúng rồi", Toast.LENGTH_LONG).show()
-                if (playingRoomViewModel.checkRoundWin() && checkCurrentPlayer()) {
-//                    showWinnerDialog(playingRoomViewModel)
-                    Toast.makeText(this, "Da doan xong", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Bạn đoán đúng rồi", Toast.LENGTH_SHORT).show()
 
-                }
             }
             else {
                 Toast.makeText(this, "Bạn đoán sai rồi", Toast.LENGTH_LONG).show()
+            }
+
+            if (playingRoomViewModel.checkRoundWin() ) {
+                showWinnerDialog(playingRoomViewModel)
+                Toast.makeText(this, "Da doan xong", Toast.LENGTH_LONG).show()
             }
             binding.edtDoan.text?.clear()
 
@@ -131,13 +132,18 @@ class PlayingRoomActivity : AppCompatActivity() {
         }
 
         binding.iconButton.setOnClickListener {
-            Toast.makeText(this, "Hint click", Toast.LENGTH_LONG).show()
-            var questionAnswerToBeGuess = questionAnswerList.random()
-            while (GameData.gameModel.value!!.previousQuestionAnswers.contains(questionAnswerToBeGuess)) {
-                questionAnswerToBeGuess = questionAnswerList.random()
+            if (playingRoomViewModel.checkRoundWin() ) {
+                showWinnerDialog(playingRoomViewModel)
+                Toast.makeText(this, "Da doan xong", Toast.LENGTH_LONG).show()
+
             }
-            playingRoomViewModel.setQuestionAndCurrentWordToBeGuessed(questionAnswerToBeGuess)
-            updateCurrentQuestionAndAnswer(GameData.gameModel.value!!)
+//            Toast.makeText(this, "Hint click", Toast.LENGTH_LONG).show()
+//            var questionAnswerToBeGuess = questionAnswerList.random()
+//            while (GameData.gameModel.value!!.previousQuestionAnswers.contains(questionAnswerToBeGuess)) {
+//                questionAnswerToBeGuess = questionAnswerList.random()
+//            }
+//            playingRoomViewModel.setQuestionAndCurrentWordToBeGuessed(questionAnswerToBeGuess)
+//            updateCurrentQuestionAndAnswer(GameData.gameModel.value!!)
         }
 
         // Wheel
@@ -185,6 +191,7 @@ class PlayingRoomActivity : AppCompatActivity() {
             updateVisibility(gameModel)
             updateCurrentQuestionAndAnswer(gameModel)
             updateAdapterAndRecyclerView()
+
             if (gameModel.gameStatus == GameStatus.ENDROUND && !checkCurrentPlayer()) {
                 showWinnerDialog(playingRoomViewModel)
                 playingRoomViewModel.updateStatusGameModel(GameStatus.WAITING_TO_CONTINUE)
@@ -263,7 +270,6 @@ class PlayingRoomActivity : AppCompatActivity() {
         builder.setMessage("Đáp án chính xác là: ${GameData.gameModel.value!!.currentQuestionAnswer.answer}")
 
         builder.setPositiveButton(R.string.btn_next) { dialog, which ->
-            viewModel.updateStatusGameModel(GameStatus.INPROGRESS)
             var questionAnswerToBeGuess = questionAnswerList.random()
             while (GameData.gameModel.value!!.previousQuestionAnswers.contains(questionAnswerToBeGuess)) {
                 questionAnswerToBeGuess = questionAnswerList.random()

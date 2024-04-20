@@ -80,6 +80,7 @@ class PlayingRoomViewModel: ViewModel() {
                     tempLetterCardList.add(LetterCard(questionAnswer.answer[i].toString()))
                 }
                 gameModel.letterCardList = tempLetterCardList
+                gameModel.gameStatus = GameStatus.INPROGRESS
                 resetGuessedCharacter()
                 GameData.saveGameModel(gameModel)
                 return true
@@ -143,13 +144,18 @@ class PlayingRoomViewModel: ViewModel() {
 
 
     fun checkRoundWin(): Boolean {
-        for (i in gameModel.letterCardList.indices) {
-            if (gameModel.letterCardList[i].isHidden) {
-                return false
-            }
-        }
-        return true
+        val gameModel: GameModel? = GameData.gameModel.value
+        var count = 0
+        gameModel?.let {
 
+            for (i in gameModel.letterCardList.indices) {
+                if (gameModel.letterCardList[i].isHidden) {
+                    count++
+                }
+            }
+
+        }
+        return count == 0
     }
 
     fun makeAllLetterCardReveal() {
