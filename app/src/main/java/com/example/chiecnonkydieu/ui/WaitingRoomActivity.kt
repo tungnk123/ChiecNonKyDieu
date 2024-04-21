@@ -23,6 +23,7 @@ import com.example.chiecnonkydieu.data.GameStatus
 import com.example.chiecnonkydieu.model.Player
 import com.example.chiecnonkydieu.databinding.ActivityWaitingRoomBinding
 import com.example.chiecnonkydieu.ui.playingRoom.PlayingRoomActivity
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class WaitingRoomActivity : AppCompatActivity() {
@@ -52,16 +53,13 @@ class WaitingRoomActivity : AppCompatActivity() {
         lifecycleScope.launch {
 
             GameData.fetchGameModel(intent.getStringExtra("room_id").toString().toInt())
-            if (GameData.gameModel.value?.gameStatus == GameStatus.INPROGRESS) {
-                goToPlayingRoom()
-            }
 
         }
 
         // update ui with the new model
         GameData.gameModel.observe(this, Observer { gameModel ->
             updateUi(gameModel)
-            if (gameModel.gameStatus == GameStatus.INPROGRESS) {
+            if (gameModel.gameStatus == GameStatus.INPROGRESS && !checkCurrentPlayer()) {
                 goToPlayingRoom()
                 finish()
             }
@@ -76,6 +74,7 @@ class WaitingRoomActivity : AppCompatActivity() {
                 )
             }
             goToPlayingRoom()
+            finish()
         }
 
 
@@ -102,6 +101,14 @@ class WaitingRoomActivity : AppCompatActivity() {
 //        })
 //    }
 
+    fun checkCurrentPlayer(): Boolean {
+        var savedPlayer: String? = ""
+        lifecycleScope.launchWhenCreated {
+            savedPlayer = dataStore.data.first()[com.example.chiecnonkydieu.ui.playingRoom.CURRENT_PLAYER]
+        }
+        return savedPlayer == GameData.gameModel.value?.currentPlayer?.name
+
+    }
     private fun updateUi(gameModel: GameModel?) {
         if (gameModel != null) {
             when (gameModel.playersList.size) {

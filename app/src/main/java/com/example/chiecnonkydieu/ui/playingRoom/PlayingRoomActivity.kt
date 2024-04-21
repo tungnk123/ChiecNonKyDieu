@@ -114,10 +114,11 @@ class PlayingRoomActivity : AppCompatActivity() {
                 Toast.makeText(this, "Bạn đoán sai rồi", Toast.LENGTH_LONG).show()
             }
 
-            if (playingRoomViewModel.checkRoundWin() ) {
-                showWinnerDialog(playingRoomViewModel)
-                Toast.makeText(this, "Da doan xong", Toast.LENGTH_LONG).show()
-            }
+//            if (playingRoomViewModel.checkRoundWin()) {
+//                playingRoomViewModel.updateGameEndRound()
+//                showWinnerDialog(playingRoomViewModel)
+//                Toast.makeText(this, "Da doan xong", Toast.LENGTH_LONG).show()
+//            }
             binding.edtDoan.text?.clear()
 
         }
@@ -192,7 +193,7 @@ class PlayingRoomActivity : AppCompatActivity() {
             updateCurrentQuestionAndAnswer(gameModel)
             updateAdapterAndRecyclerView()
 
-            if (gameModel.gameStatus == GameStatus.ENDROUND && !checkCurrentPlayer()) {
+            if (gameModel.gameStatus == GameStatus.ENDROUND) {
                 showWinnerDialog(playingRoomViewModel)
                 playingRoomViewModel.updateStatusGameModel(GameStatus.WAITING_TO_CONTINUE)
             }
@@ -250,7 +251,8 @@ class PlayingRoomActivity : AppCompatActivity() {
             if (input.text.toString() == GameData.gameModel.value!!.currentQuestionAnswer.answer) {
                 Toast.makeText(this, "giai thanh cong", Toast.LENGTH_LONG).show()
                 viewModel.makeAllLetterCardReveal()
-                showWinnerDialog(viewModel)
+                viewModel.updateGameEndRound()
+//                showWinnerDialog(viewModel)
             }
             dialog.dismiss()
         }
@@ -264,7 +266,7 @@ class PlayingRoomActivity : AppCompatActivity() {
 
     private fun showWinnerDialog(viewModel: PlayingRoomViewModel) {
 
-        viewModel.updateGameEndRound()
+//        viewModel.updateGameEndRound()
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Xin chức mừng")
         builder.setMessage("Đáp án chính xác là: ${GameData.gameModel.value!!.currentQuestionAnswer.answer}")

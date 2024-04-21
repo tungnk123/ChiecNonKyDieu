@@ -55,6 +55,9 @@ class PlayingRoomViewModel: ViewModel() {
                 }
                 updateStatusGameModel(GameStatus.INPROGRESS)
                 updateScore(gameModel)
+                if (checkRoundWin()) {
+                    updateStatusGameModel(GameStatus.ENDROUND)
+                }
                 changeTurn()
                 GameData.saveGameModel(gameModel)
                 return true
@@ -81,7 +84,7 @@ class PlayingRoomViewModel: ViewModel() {
                 }
                 gameModel.letterCardList = tempLetterCardList
                 gameModel.gameStatus = GameStatus.INPROGRESS
-                resetGuessedCharacter()
+                gameModel.guessesCharacters.clear()
                 GameData.saveGameModel(gameModel)
                 return true
             }
