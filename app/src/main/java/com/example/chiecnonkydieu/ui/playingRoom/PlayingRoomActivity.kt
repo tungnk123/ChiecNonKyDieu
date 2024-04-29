@@ -52,6 +52,7 @@ class PlayingRoomActivity : AppCompatActivity() {
 
     var indexWheel: Int = -1
     var currentValueWheel: String = ""
+    private var isDialogShowing = false
 
     lateinit var adapter: LetterCardAdapter
     lateinit var recyclerView: RecyclerView
@@ -118,27 +119,10 @@ class PlayingRoomActivity : AppCompatActivity() {
 
         binding.btnGiai.setOnClickListener {
             showDialog(playingRoomViewModel)
-////            lifecycleScope.launch {
-////                Toast.makeText(applicationContext, "Current player: " + checkCurrentPlayer().toString(), Toast.LENGTH_LONG).show()
-////            }
-
-
         }
 
         binding.iconButton.setOnClickListener {
-//            if (playingRoomViewModel.checkRoundWin() ) {
-//                showWinnerDialog(playingRoomViewModel)
-//                Toast.makeText(this, "Da doan xong", Toast.LENGTH_LONG).show()
-//
-//            }
             showHintDialog()
-//            Toast.makeText(this, "Hint click", Toast.LENGTH_LONG).show()
-//            var questionAnswerToBeGuess = questionAnswerList.random()
-//            while (GameData.gameModel.value!!.previousQuestionAnswers.contains(questionAnswerToBeGuess)) {
-//                questionAnswerToBeGuess = questionAnswerList.random()
-//            }
-//            playingRoomViewModel.setQuestionAndCurrentWordToBeGuessed(questionAnswerToBeGuess)
-//            updateCurrentQuestionAndAnswer(GameData.gameModel.value!!)
         }
 
         // Wheel
@@ -186,7 +170,7 @@ class PlayingRoomActivity : AppCompatActivity() {
             updateVisibility(gameModel)
             updateCurrentQuestionAndAnswer(gameModel)
             updateAdapterAndRecyclerView()
-            if (gameModel.gameStatus == GameStatus.ENDROUND) {
+            if (gameModel.gameStatus == GameStatus.ENDROUND && !isDialogShowing) {
                 showWinnerDialog(playingRoomViewModel)
                 playingRoomViewModel.updateStatusGameModel(GameStatus.WAITING_TO_CONTINUE)
             }
@@ -245,7 +229,6 @@ class PlayingRoomActivity : AppCompatActivity() {
                 Toast.makeText(this, "giai thanh cong", Toast.LENGTH_LONG).show()
                 viewModel.makeAllLetterCardReveal()
                 viewModel.updateGameEndRound()
-//                showWinnerDialog(viewModel)
             }
             dialog.dismiss()
         }
@@ -259,6 +242,7 @@ class PlayingRoomActivity : AppCompatActivity() {
 
     private fun showWinnerDialog(viewModel: PlayingRoomViewModel) {
 
+        isDialogShowing = true
 //        viewModel.updateGameEndRound()
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Xin chức mừng")
@@ -272,6 +256,7 @@ class PlayingRoomActivity : AppCompatActivity() {
             playingRoomViewModel.setQuestionAndCurrentWordToBeGuessed(questionAnswerToBeGuess)
             updateCurrentQuestionAndAnswer(GameData.gameModel.value!!)
             Toast.makeText(applicationContext, "choi tiep click", Toast.LENGTH_LONG).show()
+            isDialogShowing = false
             dialog.dismiss()
         }
 
@@ -311,10 +296,6 @@ class PlayingRoomActivity : AppCompatActivity() {
             listHint.findViewById<TextView>(R.id.tv_hint3).text = GameData.gameModel.value!!.currentQuestionAnswer.hintList[2].title
         }
 
-
-    }
-
-    private fun showHint() {
 
     }
 

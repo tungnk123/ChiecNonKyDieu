@@ -23,6 +23,7 @@ import com.example.chiecnonkydieu.model.LetterCard
 import com.example.chiecnonkydieu.model.Player
 import com.example.chiecnonkydieu.data.questionAnswerList
 import com.example.chiecnonkydieu.databinding.ActivityCreateRoomBinding
+import com.example.chiecnonkydieu.model.QuestionAnswer
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -67,7 +68,9 @@ class CreateRoomActivity : AppCompatActivity() {
                     guessesCharacters = mutableListOf(),
                     currentPlayer = Player(name = binding.edtName.text.toString()),
                     letterCardList = getLetterCardListFromAnswer(questionAnswerList[1].answer),
-                    previousQuestionAnswers = mutableListOf()
+                    previousQuestionAnswers = mutableListOf<QuestionAnswer>().apply {
+                        add(questionAnswerList[1])
+                    }
                 )
                 gameModel.playersList.add(Player(binding.edtName.text.toString()))
                 GameData.saveGameModel(
