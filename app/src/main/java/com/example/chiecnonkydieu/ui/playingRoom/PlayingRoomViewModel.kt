@@ -127,7 +127,6 @@ class PlayingRoomViewModel: ViewModel() {
     }
 
 
-
     private fun changeTurn() {
         val gameModel: GameModel? = GameData.gameModel.value
         var indexNewPlayer = -1

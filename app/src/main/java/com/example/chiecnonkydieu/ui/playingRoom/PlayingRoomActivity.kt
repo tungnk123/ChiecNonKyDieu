@@ -2,53 +2,46 @@ package com.example.chiecnonkydieu.ui.playingRoom
 
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.marginTop
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chiecnonkydieu.MainActivity
 import com.example.chiecnonkydieu.R
-import com.example.chiecnonkydieu.ui.adapters.LetterCardAdapter
 import com.example.chiecnonkydieu.data.GameData
 import com.example.chiecnonkydieu.data.GameData.gameModel
 import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
 import com.example.chiecnonkydieu.data.questionAnswerList
 import com.example.chiecnonkydieu.databinding.ActivityPlayingRoomBinding
-import com.example.chiecnonkydieu.ui.WaitingRoomActivity
+import com.example.chiecnonkydieu.ui.adapters.LetterCardAdapter
 import com.example.chiecnonkydieu.ui.dataStore
 import com.example.chiecnonkydieu.ui.wheel.WheelActivity
 import com.example.chiecnonkydieu.ui.wheel.WheelViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import rubikstudio.library.LuckyWheelView
-
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "player_data")
@@ -133,11 +126,12 @@ class PlayingRoomActivity : AppCompatActivity() {
         }
 
         binding.iconButton.setOnClickListener {
-            if (playingRoomViewModel.checkRoundWin() ) {
-                showWinnerDialog(playingRoomViewModel)
-                Toast.makeText(this, "Da doan xong", Toast.LENGTH_LONG).show()
-
-            }
+//            if (playingRoomViewModel.checkRoundWin() ) {
+//                showWinnerDialog(playingRoomViewModel)
+//                Toast.makeText(this, "Da doan xong", Toast.LENGTH_LONG).show()
+//
+//            }
+            showHintDialog()
 //            Toast.makeText(this, "Hint click", Toast.LENGTH_LONG).show()
 //            var questionAnswerToBeGuess = questionAnswerList.random()
 //            while (GameData.gameModel.value!!.previousQuestionAnswers.contains(questionAnswerToBeGuess)) {
@@ -192,7 +186,6 @@ class PlayingRoomActivity : AppCompatActivity() {
             updateVisibility(gameModel)
             updateCurrentQuestionAndAnswer(gameModel)
             updateAdapterAndRecyclerView()
-
             if (gameModel.gameStatus == GameStatus.ENDROUND) {
                 showWinnerDialog(playingRoomViewModel)
                 playingRoomViewModel.updateStatusGameModel(GameStatus.WAITING_TO_CONTINUE)
@@ -269,7 +262,7 @@ class PlayingRoomActivity : AppCompatActivity() {
 //        viewModel.updateGameEndRound()
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Xin chức mừng")
-        builder.setMessage("Đáp án chính xác là: ${GameData.gameModel.value!!.currentQuestionAnswer.answer}")
+        builder.setMessage("Đáp án chính xác là: ${GameData.gameModel.value!!.currentQuestionAnswer.answerCoDau}")
 
         builder.setPositiveButton(R.string.btn_next) { dialog, which ->
             var questionAnswerToBeGuess = questionAnswerList.random()
@@ -290,6 +283,38 @@ class PlayingRoomActivity : AppCompatActivity() {
             finish()
         }
         builder.show()
+
+    }
+
+    private fun showHintDialog() {
+        val viewInflated = LayoutInflater.from(this).inflate(R.layout.list_hint, null, false)
+        val listHint = viewInflated.findViewById<ConstraintLayout>(R.id.cl_listHint)
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("Choose Hint")
+            .setView(listHint)
+            .setNegativeButton("Cancel", null)
+            .show()
+
+        listHint.findViewById<LinearLayout>(R.id.ll_hint1).setOnClickListener {
+            Toast.makeText(applicationContext, "hint1 click", Toast.LENGTH_LONG).show()
+            listHint.findViewById<ImageView>(R.id.img_add1).visibility = View.GONE
+            listHint.findViewById<TextView>(R.id.tv_hint1).text = GameData.gameModel.value!!.currentQuestionAnswer.hintList[0].title
+        }
+        listHint.findViewById<LinearLayout>(R.id.ll_hint2).setOnClickListener {
+            Toast.makeText(applicationContext, "hint2 click", Toast.LENGTH_LONG).show()
+            listHint.findViewById<ImageView>(R.id.img_add2).visibility = View.GONE
+            listHint.findViewById<TextView>(R.id.tv_hint2).text = GameData.gameModel.value!!.currentQuestionAnswer.hintList[1].title
+        }
+        listHint.findViewById<LinearLayout>(R.id.ll_hint3).setOnClickListener {
+            Toast.makeText(applicationContext, "hint3 click", Toast.LENGTH_LONG).show()
+            listHint.findViewById<ImageView>(R.id.img_add3).visibility = View.GONE
+            listHint.findViewById<TextView>(R.id.tv_hint3).text = GameData.gameModel.value!!.currentQuestionAnswer.hintList[2].title
+        }
+
+
+    }
+
+    private fun showHint() {
 
     }
 

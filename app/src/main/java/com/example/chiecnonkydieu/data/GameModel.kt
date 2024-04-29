@@ -15,7 +15,6 @@ data class GameModel(
     var letterCardList: MutableList<LetterCard> = mutableListOf(),
     val previousQuestionAnswers: MutableList<QuestionAnswer> = mutableListOf(),
     var currentSpinValue: String = ""
-
 )
 
 enum class GameStatus {
