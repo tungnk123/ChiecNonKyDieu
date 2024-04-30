@@ -69,6 +69,24 @@ class WheelActivity : AppCompatActivity() {
             wheelViewModel.updateCurrentSpinValue(wheelViewModel.getStringItemAtIndex(indexAns))
         }
 
+        binding.btnMissTurnDemo.setOnClickListener {
+            countDownTimer.cancel()
+            val indexAns = 6 // vi tri mac dinh cua miss turn item
+            luckyWheelView.setRound(3)
+            luckyWheelView.startLuckyWheelWithTargetIndex(indexAns)
+            Toast.makeText(this, wheelViewModel.getStringItemAtIndex(indexAns), Toast.LENGTH_LONG).show()
+            wheelViewModel.updateCurrentSpinValue(wheelViewModel.getStringItemAtIndex(indexAns))
+        }
+
+        binding.btnItemDemo.setOnClickListener {
+            countDownTimer.cancel()
+            val indexAns = 10 // vi tri mac dinh cua item demo
+            luckyWheelView.setRound(3)
+            luckyWheelView.startLuckyWheelWithTargetIndex(indexAns)
+            Toast.makeText(this, wheelViewModel.getStringItemAtIndex(indexAns), Toast.LENGTH_LONG).show()
+            wheelViewModel.updateCurrentSpinValue(wheelViewModel.getStringItemAtIndex(indexAns))
+        }
+
         // count down timer
         countDownTimer = object : CountDownTimer(7000, 1000) {
             override fun onTick(millisUntilFinished: Long) {

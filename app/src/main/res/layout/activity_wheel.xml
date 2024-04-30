@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:background="@color/background"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".ui.wheel.WheelActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -35,30 +35,51 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:focusable="true"
         android:elevation="100dp"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_conLaiXGiay"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tv_conLaiXGiay">
 
         <rubikstudio.library.LuckyWheelView
             android:id="@+id/luckyWheel"
             android:layout_width="360dp"
             android:layout_height="360dp"
             android:layout_marginTop="36dp"
+            android:layout_marginBottom="20dp"
+            android:clickable="false"
             app:lkwCenterImage="@drawable/ic_hint"
             app:lkwCursor="@drawable/ic_cursor"
             app:lkwEdgeColor="@color/orange"
             app:lkwEdgeWidth="16"
-            android:translationZ="-10dp"
             app:lkwSecondaryTextSize="16sp"
+            android:translationZ="-10dp"
             app:lkwTopTextColor="@color/white"
             app:lkwTopTextPadding="8dp"
-            app:lkwTopTextSize="12sp"
 
-            android:clickable="false" /> <!-- Set clickable to false -->
+            app:lkwTopTextSize="12sp" /> <!-- Set clickable to false -->
     </FrameLayout>
 
+    <Button
+        android:id="@+id/btn_missTurnDemo"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="MISS TURN"
+        app:layout_constraintEnd_toStartOf="@+id/btn_itemDemo"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_wheel" />
+
+    <Button
+        android:id="@+id/btn_itemDemo"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="ITEM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_missTurnDemo"
+        app:layout_constraintTop_toBottomOf="@+id/ll_wheel" />
 
 
     <com.google.android.material.button.MaterialButton
