@@ -35,9 +35,8 @@ class WheelViewModel: ViewModel() {
         _luckyItemsList.add(luckyItem3)
 
         val luckyItem4: LuckyItem = LuckyItem()
-        luckyItem4.topText = "EXTRA TURN"
-        luckyItem4.icon = R.drawable.ic_man
-        luckyItem4.color = ContextCompat.getColor(context, R.color.purple_500)
+        luckyItem4.secondaryText = "1000"
+        luckyItem4.color = ContextCompat.getColor(context, R.color.orange)
         _luckyItemsList.add(luckyItem4)
 
         val luckyItem5: LuckyItem = LuckyItem()
@@ -100,11 +99,30 @@ class WheelViewModel: ViewModel() {
         }
     }
 
+    private fun changeTurn() {
+        val gameModel: GameModel? = GameData.gameModel.value
+        var indexNewPlayer = -1
+        gameModel?.let {
+            for (i in gameModel.playersList.indices) {
+                if (gameModel.playersList[i].name == gameModel.currentPlayer.name) {
+                    indexNewPlayer = (i + 1) % gameModel.playersList.size
+                }
+            }
+            gameModel.currentPlayer = gameModel.playersList[indexNewPlayer]
+        }
+    }
+
     fun updateCurrentSpinValue(spinValue: String) {
         val gameModel: GameModel? = GameData.gameModel.value
         gameModel?.let {
             gameModel.currentSpinValue = spinValue
-            updateStatusGameModel(GameStatus.GUESS)
+            if (spinValue.isDigitsOnly() || spinValue == "ITEM") {
+                updateStatusGameModel(GameStatus.GUESS)
+            }
+            else if (spinValue == "MISS TURN"){
+                updateStatusGameModel(GameStatus.INPROGRESS)
+                changeTurn()
+            }
             GameData.saveGameModel(gameModel)
         }
 

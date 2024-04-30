@@ -117,14 +117,13 @@ class PlayingRoomViewModel: ViewModel() {
                 gameModel.playersList[index].score += currentSpinValue.toInt()
             } else if (currentSpinValue == "ITEM"){
                 // TODO
-            } else if (currentSpinValue == "MISS_TURN") {
-
-            }
-            else if (currentSpinValue == "EXTRA_TURN") {
-
+            } else if (currentSpinValue == "MISS TURN") {
+                changeTurn()
+                updateStatusGameModel(GameStatus.INPROGRESS)
             }
         }
     }
+
 
 
     private fun changeTurn() {

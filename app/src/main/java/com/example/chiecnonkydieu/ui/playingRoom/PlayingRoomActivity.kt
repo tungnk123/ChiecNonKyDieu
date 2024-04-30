@@ -161,7 +161,6 @@ class PlayingRoomActivity : AppCompatActivity() {
             savedPlayer = dataStore.data.first()[CURRENT_PLAYER]
         }
         return savedPlayer == GameData.gameModel.value?.currentPlayer?.name
-
     }
     private fun updateUi(gameModel: GameModel?) {
         if (gameModel != null) {
@@ -186,9 +185,14 @@ class PlayingRoomActivity : AppCompatActivity() {
                     currentValueWheel = gameModel.currentSpinValue
                     break
                 }
+                if (wheelViewModel.luckyItemsList[i].topText == gameModel.currentSpinValue) {
+                    indexWheel = i
+                    currentValueWheel = gameModel.currentSpinValue
+                    break
+                }
             }
             // Kiem tra xem neu la nguoi choi hien tai thi chi cho round la 0, neu khong thi cho 3
-            if (true) {
+            if (checkCurrentPlayer()) {
                 // TODO
                 binding.luckyWheel.setRound(0)
                 binding.luckyWheel.startLuckyWheelWithTargetIndex(indexWheel)
@@ -232,7 +236,6 @@ class PlayingRoomActivity : AppCompatActivity() {
             }
             dialog.dismiss()
         }
-
         builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
             dialog.cancel()
         }
@@ -268,7 +271,6 @@ class PlayingRoomActivity : AppCompatActivity() {
             finish()
         }
         builder.show()
-
     }
 
     private fun showHintDialog() {
