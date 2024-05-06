@@ -14,6 +14,7 @@ import com.example.chiecnonkydieu.databinding.ActivityMainBinding
 import com.example.chiecnonkydieu.ui.CreateRoomActivity
 import com.example.chiecnonkydieu.ui.playingRoom.PlayingRoomActivity
 import com.example.chiecnonkydieu.ui.SearchRoomActivity
+import com.example.chiecnonkydieu.ui.admin.AddQuestionActivity
 import com.example.chiecnonkydieu.ui.wheel.WheelActivity
 import com.google.android.material.snackbar.Snackbar
 
@@ -55,6 +56,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnTimPhong.setOnClickListener {
             val intent = Intent(this, SearchRoomActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnThemCauHoi.setOnClickListener {
+            val intent = Intent(this, AddQuestionActivity::class.java)
             startActivity(intent)
         }
 

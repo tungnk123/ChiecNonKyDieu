@@ -5,6 +5,7 @@
     <string name="btn_batDau">BẮT ĐẦU</string>
     <string name="btn_taoPhong">TẠO PHÒNG</string>
     <string name="btn_timPhong">TÌM PHÒNG</string>
+    <string name="btn_taoCauHoi">TẠO CÂU HỎI</string>
     <string name="wheel_logo">wheel logo</string>
 
     <string name="title_taoPhong">Tạo phòng</string>
@@ -28,8 +29,6 @@
 
     <string name="btn_thoat">Thoát</string>
     <string name="btn_next">Chơi tiếp</string>
-
-
 
 
 </resources>

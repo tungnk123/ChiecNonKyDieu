@@ -81,6 +81,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_taoPhong" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_themCauHoi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/btn_taoCauHoi"
+        android:backgroundTint="@color/orange"
+        android:elevation="30dp"
+        android:stateListAnimator="@null"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_timPhong" />
+
     <ImageView
         android:id="@+id/img_wheel"
         android:layout_width="wrap_content"
