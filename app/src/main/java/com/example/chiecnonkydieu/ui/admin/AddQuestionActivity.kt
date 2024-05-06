@@ -12,11 +12,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.chiecnonkydieu.R
+import com.example.chiecnonkydieu.data.GameData
 import com.google.ai.client.generativeai.GenerativeModel
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class AddQuestionActivity : AppCompatActivity() {
+
+    private val database: DatabaseReference by lazy {
+        Firebase.database.reference
+    }
+    final val REFERENCE_CAUHOI: String = "CAU HOI"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_question)
@@ -64,7 +73,7 @@ class AddQuestionActivity : AppCompatActivity() {
         }
         btnHintDapAn.setOnClickListener{
             runBlocking {
-                val prompt = "Cho tôi một từ tiếng việt bất kì có tối đa 12 kí tự.Khuyến khích bạn sử dụng các từ gần gũi với văn học, lịch sử, địa danh, văn hóa, con người Việt Nam. Không cần giải thích chỉ cần ghi từ đó ra. Các từ không viết liền nhau ví dụ Khỏe khoắn"
+                val prompt = "Cho tôi một từ tiếng việt bất kì có tối đa 12 kí tự.Khuyến khích bạn sử dụng các từ gần gũi với văn học, lịch sử, địa danh, văn hóa, con người, âm nhạc Việt Nam. Không cần giải thích chỉ cần ghi từ đó ra. Các từ không viết liền nhau ví dụ Khỏe Khoắn"
                 val response = generativeModel.generateContent(prompt)
                 edtDoiTuong.setText(response.text)
             }
@@ -146,7 +155,7 @@ class AddQuestionActivity : AppCompatActivity() {
                     edtDoiTuongInHoa.setText(chuyenChuoiThanhChuoiInHoaKhongDau(word))
 
                     // Generate question about the word
-                    val questionPrompt = "Tôi đang làm trò chơi đoán từ, cho tôi một câu hỏi về từ để mọi người có thể đoán \"$word\"..."
+                    val questionPrompt = "Tôi đang làm trò chơi đoán từ, cho tôi một câu hỏi về từ để mọi người có thể đoán \"$word\"... Giới hạn dưới 30 chữ "
                     val questionResponse = generativeModel.generateContent(questionPrompt)
                     edtCauHoi.setText(questionResponse.text)
 
@@ -166,7 +175,7 @@ class AddQuestionActivity : AppCompatActivity() {
                     edtHint3.setText(hint3Response.text)
 
                     // Generate knowledge about the word
-                    val knowledgePrompt = "Cho tôi một số thông tin kiến thức về từ \"$word\", chỉ cần ghi ngắn gọn không cần dài dòng, không cần format in đậm in nghiêng, chỉ cần font bình thường"
+                    val knowledgePrompt = "Cho tôi một số thông tin kiến thức về từ \"$word\", chỉ cần ghi ngắn gọn không cần dài dòng, không cần format in đậm in nghiêng, không cần dấu * để chỉ heading, chỉ cần font bình thường"
                     val knowledgeResponse = generativeModel.generateContent(knowledgePrompt)
                     edtThongTinKienThuc.setText(knowledgeResponse.text)
                 }
@@ -189,7 +198,16 @@ class AddQuestionActivity : AppCompatActivity() {
                 BoCauHoi.Hint3 = edtHint3.text.toString()
                 BoCauHoi.ThongTin = edtThongTinKienThuc.text.toString()
 
-                // Thao tác thêm câu hỏi lên db ........
+                database.child(REFERENCE_CAUHOI).push().setValue(BoCauHoi).addOnSuccessListener {
+                    Toast.makeText(this, "Thêm câu hỏi thành công", Toast.LENGTH_LONG).show()
+                    edtDoiTuong.text.clear()
+                    edtCauHoi.text.clear()
+                    edtDoiTuongInHoa.text.clear()
+                    edtHint1.text.clear()
+                    edtHint2.text.clear()
+                    edtHint3.text.clear()
+                    edtThongTinKienThuc.text.clear()
+                }
 
             }
             catch(e : Exception) {
@@ -214,13 +232,13 @@ class AddQuestionActivity : AppCompatActivity() {
         }
         return stringBuilder.toString().toUpperCase()
     }
-    class Question{
-        var DoiTuong : String = ""
-        var DoiTuongInHoa : String = ""
-        var CauHoi : String = ""
-        var Hint1 : String = ""
-        var Hint2 : String = ""
-        var Hint3 : String = ""
+    data class Question(
+        var DoiTuong : String = "",
+        var DoiTuongInHoa : String = "",
+        var CauHoi : String = "",
+        var Hint1 : String = "",
+        var Hint2 : String = "",
+        var Hint3 : String = "",
         var ThongTin : String = ""
-    }
+    )
 }
