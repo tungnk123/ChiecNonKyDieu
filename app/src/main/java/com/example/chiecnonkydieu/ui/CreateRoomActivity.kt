@@ -67,7 +67,7 @@ class CreateRoomActivity : AppCompatActivity() {
                     currentQuestionAnswer = questionAnswerList[1],
                     guessesCharacters = mutableListOf(),
                     currentPlayer = Player(name = binding.edtName.text.toString()),
-                    letterCardList = getLetterCardListFromAnswer(questionAnswerList[1].answer),
+                    letterCardList = getLetterCardListFromAnswer(questionAnswerList[0].DoiTuongInHoa),
                     previousQuestionAnswers = mutableListOf<QuestionAnswer>().apply {
                         add(questionAnswerList[1])
                     }

@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.chiecnonkydieu.R
 import com.example.chiecnonkydieu.data.GameData
+import com.example.chiecnonkydieu.model.QuestionAnswer
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -189,7 +190,7 @@ class AddQuestionActivity : AppCompatActivity() {
 
         btnThem.setOnClickListener{
             try {
-                val BoCauHoi = Question()
+                val BoCauHoi = QuestionAnswer()
                 BoCauHoi.DoiTuong = edtDoiTuong.text.toString()
                 BoCauHoi.CauHoi = edtCauHoi.text.toString()
                 BoCauHoi.DoiTuongInHoa = edtDoiTuongInHoa.text.toString()
@@ -232,13 +233,5 @@ class AddQuestionActivity : AppCompatActivity() {
         }
         return stringBuilder.toString().toUpperCase()
     }
-    data class Question(
-        var DoiTuong : String = "",
-        var DoiTuongInHoa : String = "",
-        var CauHoi : String = "",
-        var Hint1 : String = "",
-        var Hint2 : String = "",
-        var Hint3 : String = "",
-        var ThongTin : String = ""
-    )
+
 }

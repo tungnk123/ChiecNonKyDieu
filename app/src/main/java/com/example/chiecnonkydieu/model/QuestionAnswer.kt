@@ -1,8 +1,12 @@
 package com.example.chiecnonkydieu.model
 
+
 data class QuestionAnswer(
-    val question: String = "Thủ đô của Việt Nam nằm ở đâu?",
-    val answer: String = "HA NOI",
-    val answerCoDau: String = "Hà Nội",
-    val hintList: MutableList<Hint> = mutableListOf()
+    var DoiTuong : String = "",
+    var DoiTuongInHoa : String = "",
+    var CauHoi : String = "",
+    var Hint1 : String = "",
+    var Hint2 : String = "",
+    var Hint3 : String = "",
+    var ThongTin : String = ""
 )

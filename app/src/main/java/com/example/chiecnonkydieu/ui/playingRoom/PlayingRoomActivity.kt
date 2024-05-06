@@ -229,7 +229,7 @@ class PlayingRoomActivity : AppCompatActivity() {
 
         builder.setPositiveButton(android.R.string.ok) { dialog, which ->
 
-            if (input.text.toString() == GameData.gameModel.value!!.currentQuestionAnswer.answer) {
+            if (input.text.toString() == GameData.gameModel.value!!.currentQuestionAnswer.DoiTuongInHoa) {
                 Toast.makeText(this, "giai thanh cong", Toast.LENGTH_LONG).show()
                 viewModel.makeAllLetterCardReveal()
                 viewModel.updateGameEndRound()
@@ -249,7 +249,7 @@ class PlayingRoomActivity : AppCompatActivity() {
 //        viewModel.updateGameEndRound()
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Xin chức mừng")
-        builder.setMessage("Đáp án chính xác là: ${GameData.gameModel.value!!.currentQuestionAnswer.answerCoDau}")
+        builder.setMessage("Đáp án chính xác là: ${GameData.gameModel.value!!.currentQuestionAnswer.DoiTuong}")
 
         builder.setPositiveButton(R.string.btn_next) { dialog, which ->
             var questionAnswerToBeGuess = questionAnswerList.random()
@@ -285,24 +285,24 @@ class PlayingRoomActivity : AppCompatActivity() {
         listHint.findViewById<LinearLayout>(R.id.ll_hint1).setOnClickListener {
             Toast.makeText(applicationContext, "hint1 click", Toast.LENGTH_LONG).show()
             listHint.findViewById<ImageView>(R.id.img_add1).visibility = View.GONE
-            listHint.findViewById<TextView>(R.id.tv_hint1).text = GameData.gameModel.value!!.currentQuestionAnswer.hintList[0].title
+            listHint.findViewById<TextView>(R.id.tv_hint1).text = GameData.gameModel.value!!.currentQuestionAnswer.Hint1
         }
         listHint.findViewById<LinearLayout>(R.id.ll_hint2).setOnClickListener {
             Toast.makeText(applicationContext, "hint2 click", Toast.LENGTH_LONG).show()
             listHint.findViewById<ImageView>(R.id.img_add2).visibility = View.GONE
-            listHint.findViewById<TextView>(R.id.tv_hint2).text = GameData.gameModel.value!!.currentQuestionAnswer.hintList[1].title
+            listHint.findViewById<TextView>(R.id.tv_hint2).text = GameData.gameModel.value!!.currentQuestionAnswer.Hint2
         }
         listHint.findViewById<LinearLayout>(R.id.ll_hint3).setOnClickListener {
             Toast.makeText(applicationContext, "hint3 click", Toast.LENGTH_LONG).show()
             listHint.findViewById<ImageView>(R.id.img_add3).visibility = View.GONE
-            listHint.findViewById<TextView>(R.id.tv_hint3).text = GameData.gameModel.value!!.currentQuestionAnswer.hintList[2].title
+            listHint.findViewById<TextView>(R.id.tv_hint3).text = GameData.gameModel.value!!.currentQuestionAnswer.Hint3
         }
 
 
     }
 
     private fun updateCurrentQuestionAndAnswer(gameModel: GameModel) {
-        binding.tvQuestion.text = gameModel.currentQuestionAnswer.question
+        binding.tvQuestion.text = gameModel.currentQuestionAnswer.CauHoi
         updateAdapterAndRecyclerView()
     }
 

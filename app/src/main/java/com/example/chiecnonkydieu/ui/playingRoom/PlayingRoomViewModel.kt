@@ -13,9 +13,15 @@ import com.example.chiecnonkydieu.data.GameData.gameModel
 import com.example.chiecnonkydieu.data.GameData.saveGameModel
 import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
+import com.example.chiecnonkydieu.data.REFERENCE_CAUHOI
+import com.example.chiecnonkydieu.data.database
+import com.example.chiecnonkydieu.data.questionAnswerList
 import com.example.chiecnonkydieu.model.LetterCard
 import com.example.chiecnonkydieu.model.Player
 import com.example.chiecnonkydieu.model.QuestionAnswer
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -34,14 +40,46 @@ class PlayingRoomViewModel: ViewModel() {
         if (GameData.gameModel.value != null) {
             gameModel = GameData.gameModel.value!!
         }
+        getQuestionFromFirebase()
     }
+
+    private fun getQuestionFromFirebase() {
+        val questionAnswerListFromFirebase: MutableList<QuestionAnswer> = mutableListOf()
+
+        // Lắng nghe sự kiện khi dữ liệu thay đổi trên Firebase
+        database.child(REFERENCE_CAUHOI).addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Xóa danh sách hiện tại để cập nhật với dữ liệu mới
+                questionAnswerListFromFirebase.clear()
+
+                // Lặp qua các nút con của nút "QUESTION_ANSWER" trên Firebase
+                for (snapshot in dataSnapshot.children) {
+                    // Lấy dữ liệu từ DataSnapshot và chuyển đổi thành đối tượng QuestionAnswer
+                    val questionAnswer = snapshot.getValue(QuestionAnswer::class.java)
+                    if (questionAnswer != null) {
+                        questionAnswerListFromFirebase.add(questionAnswer)
+                    }
+                }
+
+                // Gán danh sách câu hỏi và câu trả lời từ Firebase vào questionAnswerList
+                questionAnswerList.clear()
+                questionAnswerList.addAll(questionAnswerListFromFirebase)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Xử lý khi có lỗi xảy ra
+            }
+        })
+    }
+
 
     fun isUserInputMatch(playerInputChar: Char): Boolean {
         val gameModel: GameModel? = GameData.gameModel.value
         val playerInputStringLC = playerInputChar.lowercaseChar().toString()
         val playerInputCharLC = playerInputChar.lowercaseChar()
         gameModel?.let {
-            if (gameModel.currentQuestionAnswer.answer.contains(
+            if (gameModel.currentQuestionAnswer.DoiTuongInHoa.contains(
                     playerInputStringLC,
                     ignoreCase = true
                 ) &&
@@ -79,8 +117,8 @@ class PlayingRoomViewModel: ViewModel() {
                 gameModel.previousQuestionAnswers.add(questionAnswer)
                 gameModel.currentQuestionAnswer = questionAnswer
                 val tempLetterCardList = mutableListOf<LetterCard>()
-                for (i in questionAnswer.answer.indices) {
-                    tempLetterCardList.add(LetterCard(questionAnswer.answer[i].toString()))
+                for (i in questionAnswer.DoiTuongInHoa.indices) {
+                    tempLetterCardList.add(LetterCard(questionAnswer.DoiTuongInHoa[i].toString()))
                 }
                 gameModel.letterCardList = tempLetterCardList
                 gameModel.gameStatus = GameStatus.INPROGRESS
