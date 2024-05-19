@@ -1,7 +1,7 @@
 package com.example.chiecnonkydieu.ui
 
+import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,22 +9,26 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.example.chiecnonkydieu.R
 import com.example.chiecnonkydieu.data.GameData
-import com.example.chiecnonkydieu.data.GameData.gameModel
 import com.example.chiecnonkydieu.data.GameModel
 import com.example.chiecnonkydieu.data.GameStatus
-import com.example.chiecnonkydieu.data.Player
+import com.example.chiecnonkydieu.model.Player
 import com.example.chiecnonkydieu.databinding.ActivityWaitingRoomBinding
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.example.chiecnonkydieu.ui.playingRoom.PlayingRoomActivity
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class WaitingRoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWaitingRoomBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -49,16 +53,13 @@ class WaitingRoomActivity : AppCompatActivity() {
         lifecycleScope.launch {
 
             GameData.fetchGameModel(intent.getStringExtra("room_id").toString().toInt())
-            if (GameData.gameModel.value?.gameStatus == GameStatus.INPROGRESS) {
-                goToPlayingRoom()
-            }
 
         }
 
         // update ui with the new model
         GameData.gameModel.observe(this, Observer { gameModel ->
             updateUi(gameModel)
-            if (gameModel.gameStatus == GameStatus.INPROGRESS) {
+            if (gameModel.gameStatus == GameStatus.INPROGRESS && !checkCurrentPlayer()) {
                 goToPlayingRoom()
                 finish()
             }
@@ -73,6 +74,7 @@ class WaitingRoomActivity : AppCompatActivity() {
                 )
             }
             goToPlayingRoom()
+            finish()
         }
 
 
@@ -99,6 +101,14 @@ class WaitingRoomActivity : AppCompatActivity() {
 //        })
 //    }
 
+    fun checkCurrentPlayer(): Boolean {
+        var savedPlayer: String? = ""
+        lifecycleScope.launchWhenCreated {
+            savedPlayer = dataStore.data.first()[com.example.chiecnonkydieu.ui.playingRoom.CURRENT_PLAYER]
+        }
+        return savedPlayer == GameData.gameModel.value?.currentPlayer?.name
+
+    }
     private fun updateUi(gameModel: GameModel?) {
         if (gameModel != null) {
             when (gameModel.playersList.size) {
@@ -142,6 +152,7 @@ class WaitingRoomActivity : AppCompatActivity() {
         }
 
     }
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

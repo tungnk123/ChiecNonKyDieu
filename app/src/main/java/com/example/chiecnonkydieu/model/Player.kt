@@ -1,7 +1,7 @@
-package com.example.chiecnonkydieu.data
+package com.example.chiecnonkydieu.model
 
 data class Player(
     val name: String = "Player",
     val gender: Boolean = true,
-    val score: Int = 0
+    var score: Int = 0
 )

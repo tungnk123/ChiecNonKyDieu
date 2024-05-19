@@ -1,17 +1,20 @@
 package com.example.chiecnonkydieu.data
 
-import android.health.connect.datatypes.units.Length
+import com.example.chiecnonkydieu.model.LetterCard
+import com.example.chiecnonkydieu.model.Player
+import com.example.chiecnonkydieu.model.QuestionAnswer
 
 data class GameModel(
     val gameId: Int = -1,
     val winner: String = "",
     var gameStatus: GameStatus = GameStatus.CREATED,
     val playersList: MutableList<Player> = mutableListOf<Player>(),
-    val currentPlayer: Player = Player(),
-    val currentQuestion: String = "",
-    val currentAnswer: String = "HA NOI",
-    val currentGuess: String = " A N  "
-
+    var currentPlayer: Player = Player(),
+    var currentQuestionAnswer: QuestionAnswer = questionAnswerList[0],
+    val guessesCharacters: MutableList<String> = mutableListOf(),
+    var letterCardList: MutableList<LetterCard> = mutableListOf(),
+    val previousQuestionAnswers: MutableList<QuestionAnswer> = mutableListOf(),
+    var currentSpinValue: String = ""
 )
 
 enum class GameStatus {
@@ -19,5 +22,8 @@ enum class GameStatus {
     JOINED1,
     JOINED2,
     INPROGRESS,
+    GUESS,
+    ENDROUND,
+    WAITING_TO_CONTINUE,
     FINISHED
 }

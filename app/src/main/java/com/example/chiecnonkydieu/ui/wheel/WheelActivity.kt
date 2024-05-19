@@ -14,9 +14,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
 import com.example.chiecnonkydieu.R
+import com.example.chiecnonkydieu.data.GameData
+import com.example.chiecnonkydieu.data.GameStatus
 import com.example.chiecnonkydieu.databinding.ActivityWheelBinding
 import rubikstudio.library.LuckyWheelView
 import rubikstudio.library.model.LuckyItem
+import java.util.concurrent.locks.ReentrantLock
 
 class WheelActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWheelBinding
@@ -45,23 +48,43 @@ class WheelActivity : AppCompatActivity() {
 
         wheelViewModel.initLuckyItemList(this)
         luckyWheelView.setData(wheelViewModel.luckyItemsList)
-
         luckyWheelView.isTouchEnabled = false
         luckyWheelView.setOnTouchListener { v, event ->
+            countDownTimer.cancel()
             val indexAns = wheelViewModel.getIndexAfterRotate()
             luckyWheelView.setRound(3)
             luckyWheelView.startLuckyWheelWithTargetIndex(indexAns)
             Toast.makeText(this, wheelViewModel.getStringItemAtIndex(indexAns), Toast.LENGTH_LONG).show()
-            return@setOnTouchListener true
+            wheelViewModel.updateCurrentSpinValue(wheelViewModel.getStringItemAtIndex(indexAns))
+            return@setOnTouchListener false
         }
 
 
         binding.btnQuay.setOnClickListener {
+            countDownTimer.cancel()
             val indexAns = wheelViewModel.getIndexAfterRotate()
             luckyWheelView.setRound(3)
             luckyWheelView.startLuckyWheelWithTargetIndex(indexAns)
             Toast.makeText(this, wheelViewModel.getStringItemAtIndex(indexAns), Toast.LENGTH_LONG).show()
-//            Toast.makeText(this, wheelViewModel.luckyItemsList.get(3).secondaryText, Toast.LENGTH_LONG).show()
+            wheelViewModel.updateCurrentSpinValue(wheelViewModel.getStringItemAtIndex(indexAns))
+        }
+
+        binding.btnMissTurnDemo.setOnClickListener {
+            countDownTimer.cancel()
+            val indexAns = 6 // vi tri mac dinh cua miss turn item
+            luckyWheelView.setRound(3)
+            luckyWheelView.startLuckyWheelWithTargetIndex(indexAns)
+            Toast.makeText(this, wheelViewModel.getStringItemAtIndex(indexAns), Toast.LENGTH_LONG).show()
+            wheelViewModel.updateCurrentSpinValue(wheelViewModel.getStringItemAtIndex(indexAns))
+        }
+
+        binding.btnItemDemo.setOnClickListener {
+            countDownTimer.cancel()
+            val indexAns = 10 // vi tri mac dinh cua item demo
+            luckyWheelView.setRound(3)
+            luckyWheelView.startLuckyWheelWithTargetIndex(indexAns)
+            Toast.makeText(this, wheelViewModel.getStringItemAtIndex(indexAns), Toast.LENGTH_LONG).show()
+            wheelViewModel.updateCurrentSpinValue(wheelViewModel.getStringItemAtIndex(indexAns))
         }
 
         // count down timer

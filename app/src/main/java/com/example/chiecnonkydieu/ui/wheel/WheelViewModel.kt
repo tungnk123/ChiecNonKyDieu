@@ -1,15 +1,23 @@
 package com.example.chiecnonkydieu.ui.wheel
 
 import android.content.Context
-import android.graphics.Color
 import androidx.core.content.ContextCompat
+import androidx.core.text.isDigitsOnly
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.chiecnonkydieu.R
+import com.example.chiecnonkydieu.data.GameData
+import com.example.chiecnonkydieu.data.GameModel
+import com.example.chiecnonkydieu.data.GameStatus
+import com.example.chiecnonkydieu.model.LetterCard
 import rubikstudio.library.model.LuckyItem
 class WheelViewModel: ViewModel() {
     private val _luckyItemsList: MutableList<LuckyItem> = mutableListOf()
     val luckyItemsList:List<LuckyItem> = _luckyItemsList
 
+    private val _letterCardList = MutableLiveData<MutableList<LetterCard>>()
+    val letterCardList: LiveData<MutableList<LetterCard>> = _letterCardList
     fun initLuckyItemList(context: Context) {
         val luckyItem: LuckyItem = LuckyItem()
         luckyItem.secondaryText = "100"
@@ -27,9 +35,8 @@ class WheelViewModel: ViewModel() {
         _luckyItemsList.add(luckyItem3)
 
         val luckyItem4: LuckyItem = LuckyItem()
-        luckyItem4.topText = "EXTRA TURN"
-        luckyItem4.icon = R.drawable.ic_man
-        luckyItem4.color = ContextCompat.getColor(context, R.color.purple_500)
+        luckyItem4.secondaryText = "1000"
+        luckyItem4.color = ContextCompat.getColor(context, R.color.orange)
         _luckyItemsList.add(luckyItem4)
 
         val luckyItem5: LuckyItem = LuckyItem()
@@ -83,5 +90,41 @@ class WheelViewModel: ViewModel() {
         else {
             _luckyItemsList[index].topText
         }
+    }
+
+    fun updateStatusGameModel(gameStatus: GameStatus) {
+        val gameModel: GameModel? = GameData.gameModel.value
+        gameModel?.let {
+            gameModel.gameStatus = gameStatus
+        }
+    }
+
+    private fun changeTurn() {
+        val gameModel: GameModel? = GameData.gameModel.value
+        var indexNewPlayer = -1
+        gameModel?.let {
+            for (i in gameModel.playersList.indices) {
+                if (gameModel.playersList[i].name == gameModel.currentPlayer.name) {
+                    indexNewPlayer = (i + 1) % gameModel.playersList.size
+                }
+            }
+            gameModel.currentPlayer = gameModel.playersList[indexNewPlayer]
+        }
+    }
+
+    fun updateCurrentSpinValue(spinValue: String) {
+        val gameModel: GameModel? = GameData.gameModel.value
+        gameModel?.let {
+            gameModel.currentSpinValue = spinValue
+            if (spinValue.isDigitsOnly() || spinValue == "ITEM") {
+                updateStatusGameModel(GameStatus.GUESS)
+            }
+            else if (spinValue == "MISS TURN"){
+                updateStatusGameModel(GameStatus.INPROGRESS)
+                changeTurn()
+            }
+            GameData.saveGameModel(gameModel)
+        }
+
     }
 }
