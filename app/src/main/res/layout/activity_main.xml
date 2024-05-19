@@ -7,7 +7,20 @@
     android:layout_height="match_parent"
     android:background="@drawable/purple_gradient"
     tools:context=".MainActivity">
-
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="30dp"
+        android:contentDescription="@string/wheel_logo"
+        android:id="@+id/tv_napTien"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Nạp tiền"
+        android:layout_marginStart="20dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        />
     <ImageView
         android:id="@+id/img_logo"
         android:layout_width="150dp"

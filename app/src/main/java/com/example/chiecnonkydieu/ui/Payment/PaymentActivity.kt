@@ -79,6 +79,10 @@ class PaymentActivity : AppCompatActivity(), OnItemClickListener {
             requestPayment()
         })
 
+        binding.backButton.setOnClickListener{
+            finish()
+        }
+
 //        model.canUseGooglePay.observe(this, Observer(::setGooglePayAvailable))
 //        // Check whether Google Pay is available and show or hide your Google Pay
 //        // button depending on the result

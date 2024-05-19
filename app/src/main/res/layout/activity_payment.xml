@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     tools:viewBindingIgnore="false"
-    android:padding="20dp"
     android:orientation="vertical"
     android:background="@color/white"
     android:layout_width="match_parent"
@@ -132,6 +131,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:paddingHorizontal="20dp"
         app:layout_constraintTop_toBottomOf="@id/content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -142,6 +142,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
         xmlns:wallet="http://schemas.android.com/apk/res-auto">
 
         <com.google.android.gms.wallet.button.PayButton
