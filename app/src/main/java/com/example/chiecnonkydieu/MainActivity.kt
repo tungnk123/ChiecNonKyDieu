@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.chiecnonkydieu.databinding.ActivityMainBinding
 import com.example.chiecnonkydieu.ui.CreateRoomActivity
+import com.example.chiecnonkydieu.ui.Payment.PaymentActivity
 import com.example.chiecnonkydieu.ui.playingRoom.PlayingRoomActivity
 import com.example.chiecnonkydieu.ui.SearchRoomActivity
 import com.example.chiecnonkydieu.ui.admin.AddQuestionActivity
@@ -58,9 +59,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SearchRoomActivity::class.java)
             startActivity(intent)
         }
-
-
-
+        binding.tvNapTien.setOnClickListener {
+            val intent = Intent(this, PaymentActivity::class.java)
+            startActivity(intent)
+        }
     }
     private fun goToPlayingRoom() {
         // TODO Set cung
