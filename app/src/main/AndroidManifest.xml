@@ -12,6 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChiecNonKyDieu"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
+        <activity
+            android:name=".ui.Payment.PaymentActivity"
+            android:exported="true" >
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
         <activity
             android:name=".ui.admin.HomeAdminActivity"
             android:exported="false" />
@@ -46,7 +58,7 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <meta-data
             android:name="preloaded_fonts"

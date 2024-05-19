@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutItemCoin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="6dp"
+        android:background="@drawable/bg_itemcoin"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="150dp"
+        android:layout_height="150dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_amountCoins"
+                android:textAlignment="center"
+                android:padding="5dp"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:text="100 COINS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_plus"
+                android:visibility="gone"
+                android:textSize="10sp"
+                android:text="+20%"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_coin"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/_20"
+            android:layout_width="55dp"
+            android:layout_height="55dp"/>
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:text="20.000 Đ"
+            android:textStyle="bold"
+            android:textColor="#6A26DA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/img_itemchecked"
+        app:layout_constraintEnd_toEndOf="@id/linearLayoutItemCoin"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/check"
+        android:layout_marginEnd="-5dp"
+        android:visibility="gone"
+        android:layout_marginTop="-5dp"
+        android:layout_width="25dp"
+        android:padding="5dp"
+        android:layout_height="25dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
