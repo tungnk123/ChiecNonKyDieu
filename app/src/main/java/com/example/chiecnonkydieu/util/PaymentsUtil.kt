@@ -109,11 +109,11 @@ object PaymentsUtil {
                 "parameters", JSONObject()
                     .put("allowedAuthMethods", allowedCardAuthMethods)
                     .put("allowedCardNetworks", allowedCardNetworks)
-                    .put("billingAddressRequired", true)
-                    .put(
-                        "billingAddressParameters", JSONObject()
-                            .put("format", "FULL")
-                    )
+//                    .put("billingAddressRequired", true)
+//                    .put(
+//                        "billingAddressParameters", JSONObject()
+//                            .put("format", "FULL")
+//                    )
             )
 
     /**
@@ -192,12 +192,12 @@ object PaymentsUtil {
             .put("allowedPaymentMethods", allowedPaymentMethods)
             .put("transactionInfo", getTransactionInfo(priceCents.centsToString()))
             .put("merchantInfo", merchantInfo)
-            .put("shippingAddressRequired", true)
-            .put(
-                "shippingAddressParameters", JSONObject()
-                    .put("phoneNumberRequired", false)
-                    .put("allowedCountryCodes", JSONArray(listOf("US", "GB")))
-            )
+//            .put("shippingAddressRequired", true)
+//            .put(
+//                "shippingAddressParameters", JSONObject()
+//                    .put("phoneNumberRequired", false)
+//                    .put("allowedCountryCodes", JSONArray(listOf("US", "GB")))
+//            )
 }
 
 /**
