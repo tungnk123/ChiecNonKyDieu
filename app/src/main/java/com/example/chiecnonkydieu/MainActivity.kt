@@ -59,10 +59,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.btnThemCauHoi.setOnClickListener {
-            val intent = Intent(this, AddQuestionActivity::class.java)
-            startActivity(intent)
-        }
+
 
     }
     private fun goToPlayingRoom() {

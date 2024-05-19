@@ -29,6 +29,11 @@
 
     <string name="btn_thoat">Thoát</string>
     <string name="btn_next">Chơi tiếp</string>
+    <string name="btn_dangNhap">Đăng nhập</string>
+
+    <string name="title_taikhoan">Tài khoản</string>
+    <string name="title_matKhau">Mật khẩu</string>
+    <string name="tao_nft">TẠO NFT</string>
 
 
 </resources>

@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/admin_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/purple_gradient"
@@ -24,28 +24,12 @@
         android:id="@+id/tv_title"
         style="@style/MaterialAlertDialog.Material3.Title.Text.CenterStacked"
         android:layout_marginTop="20dp"
-        android:text="@string/app_title"
+        android:text="ADMIN"
         android:textSize="30sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_logo" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_batDau"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/btn_batDau"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:backgroundTint="@color/blue_200"
-        android:elevation="30dp"
-        android:stateListAnimator="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_taoPhong"
@@ -54,7 +38,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:text="@string/btn_taoPhong"
+        android:text="@string/tao_nft"
         android:backgroundTint="@color/orange"
         android:elevation="30dp"
         android:stateListAnimator="@null"
@@ -62,16 +46,17 @@
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_batDau" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_timPhong"
+        android:id="@+id/btn_themCauHoi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:text="@string/btn_timPhong"
+        android:text="@string/btn_taoCauHoi"
         android:backgroundTint="@color/orange"
         android:elevation="30dp"
         android:stateListAnimator="@null"
@@ -80,7 +65,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_taoPhong" />
-
 
     <ImageView
         android:id="@+id/img_wheel"
@@ -91,6 +75,6 @@
         android:src="@drawable/ic_roulette"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_timPhong" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_taoPhong" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
