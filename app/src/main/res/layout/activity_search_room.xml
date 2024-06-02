@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".ui.SearchRoomActivity">
+    tools:context="com.uit.chiecnonkydieu.ui.SearchRoomActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

@@ -16,48 +16,48 @@
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
         <activity
-            android:name=".ui.Payment.PaymentActivity"
+            android:name="com.uit.chiecnonkydieu.ui.Payment.PaymentActivity"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".ui.admin.HomeAdminActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.admin.LoginActivity"
-            android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
-
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
         </activity>
+
         <activity
-            android:name=".ui.admin.AddQuestionActivity"
+            android:name="com.uit.chiecnonkydieu.ui.admin.HomeAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.wheel.WheelActivity"
+            android:name="com.uit.chiecnonkydieu.ui.admin.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.uit.chiecnonkydieu.ui.admin.AddQuestionActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.playingRoom.PlayingRoomActivity"
+            android:name="com.uit.chiecnonkydieu.ui.wheel.WheelActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.uit.chiecnonkydieu.ui.playingRoom.PlayingRoomActivity"
             android:exported="false"
             android:launchMode="singleTop" />
         <activity
-            android:name=".ui.SearchRoomActivity"
+            android:name="com.uit.chiecnonkydieu.ui.SearchRoomActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.CreateRoomActivity"
+            android:name="com.uit.chiecnonkydieu.ui.CreateRoomActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.WaitingRoomActivity"
+            android:name="com.uit.chiecnonkydieu.ui.WaitingRoomActivity"
             android:exported="false"
             android:launchMode="singleTop" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.uit.chiecnonkydieu.MainActivity"
             android:exported="true" >
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->

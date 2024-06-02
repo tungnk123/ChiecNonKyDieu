@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_200"
-    tools:context=".ui.admin.LoginActivity">
+    tools:context="com.uit.chiecnonkydieu.ui.admin.LoginActivity">
 
     <ImageView
         android:id="@+id/img_logo"

@@ -1,37 +1,27 @@
 {
   "project_info": {
-    "project_number": "54129121017",
-    "firebase_url": "https://penguin-project-12197-default-rtdb.firebaseio.com",
-    "project_id": "penguin-project-12197",
-    "storage_bucket": "penguin-project-12197.appspot.com"
+    "project_number": "34194335337",
+    "firebase_url": "https://chiecnonkydieu-d25ff-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "chiecnonkydieu-d25ff",
+    "storage_bucket": "chiecnonkydieu-d25ff.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:54129121017:android:b83419724aade699ba7428",
+        "mobilesdk_app_id": "1:34194335337:android:b8dbd838ac26c5573de4f8",
         "android_client_info": {
-          "package_name": "com.example.chiecnonkydieu"
+          "package_name": "com.uit.chiecnonkydieu"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "54129121017-ellud7jc5ecupa7k7492bauf842pu42j.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCw4nFy0pCFUtUMWloG60BpR_MmiJLFwrQ"
+          "current_key": "AIzaSyCqHmfo7lwGTGag7TWJOBjLNaCJDhxxHWw"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "54129121017-ellud7jc5ecupa7k7492bauf842pu42j.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

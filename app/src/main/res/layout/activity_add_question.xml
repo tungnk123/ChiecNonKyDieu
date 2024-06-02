@@ -7,7 +7,7 @@
     android:background="#eaffd0"
     android:orientation="vertical"
     android:theme="@style/Theme.MaterialComponents.Light"
-    tools:context=".ui.admin.AddQuestionActivity">
+    tools:context="com.uit.chiecnonkydieu.ui.admin.AddQuestionActivity">
 
 
     <LinearLayout
