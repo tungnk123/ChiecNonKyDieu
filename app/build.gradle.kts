@@ -106,4 +106,13 @@ dependencies {
     // coil
     implementation ("io.coil-kt:coil:2.1.0")
 
+    // retrofit
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // gson
+    implementation ("com.google.code.gson:gson:2.10.1")
+
 }

@@ -22,6 +22,7 @@ import com.uit.chiecnonkydieu.ui.inventory.InventoryActivity
 import com.uit.chiecnonkydieu.ui.leaderboard.LeaderboardActivity
 import com.uit.chiecnonkydieu.ui.profile.ProfileActivity
 import com.uit.chiecnonkydieu.ui.store.StoreActivity
+import com.uit.chiecnonkydieu.ui.wheel.EveryDayWheelActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 //        startActivity(intent)
         binding.btnBatDau.setOnClickListener {
 //            goToPlayingRoom()
-            val intent = Intent(this, WheelActivity::class.java)
+            val intent = Intent(this, EveryDayWheelActivity::class.java)
             startActivity(intent)
         }
 
