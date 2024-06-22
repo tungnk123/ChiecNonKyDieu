@@ -10,21 +10,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import coil.imageLoader
 import com.uit.chiecnonkydieu.ui.CreateRoomActivity
-import com.uit.chiecnonkydieu.ui.Payment.PaymentActivity
 import com.uit.chiecnonkydieu.ui.playingRoom.PlayingRoomActivity
 import com.uit.chiecnonkydieu.ui.SearchRoomActivity
 import com.uit.chiecnonkydieu.ui.wheel.WheelActivity
 import com.google.android.material.snackbar.Snackbar
 import com.uit.chiechnonkydieu.R
 import com.uit.chiechnonkydieu.databinding.ActivityMainBinding
+import com.uit.chiecnonkydieu.ui.inventory.InventoryActivity
+import com.uit.chiecnonkydieu.ui.leaderboard.LeaderboardActivity
+import com.uit.chiecnonkydieu.ui.profile.ProfileActivity
+import com.uit.chiecnonkydieu.ui.store.StoreActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = com.uit.chiechnonkydieu.databinding.ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         if (!isNetworkAvailable()) {
@@ -59,8 +63,28 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SearchRoomActivity::class.java)
             startActivity(intent)
         }
-        binding.tvNapTien.setOnClickListener {
-            val intent = Intent(this, PaymentActivity::class.java)
+//        binding.setOnClickListener {
+//            val intent = Intent(this, PaymentActivity::class.java)
+//            startActivity(intent)
+//        }
+
+        binding.llProfile.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.llStore.setOnClickListener {
+            val intent = Intent(this, StoreActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.llInventory.setOnClickListener {
+            val intent = Intent(this, InventoryActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.llScoreboard.setOnClickListener {
+            val intent = Intent(this, LeaderboardActivity::class.java)
             startActivity(intent)
         }
     }

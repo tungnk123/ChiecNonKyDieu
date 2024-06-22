@@ -36,4 +36,14 @@
     <string name="tao_nft">TẠO NFT</string>
 
 
+    <string name="title_thong_tin_ca_nhan">Thông tin cá nhân</string>
+    <string name="title_dia_chi_vi">Địa chỉ ví NFT</string>
+    <string name="title_nft">NFT</string>
+    <string name="btn_dangXuat">NFT</string>
+
+    <string name="title_kho_do">Kho đồ</string>
+    <string name="title_cua_hang">Cửa hàng</string>
+    <string name="title_bang_xep_hang">Bảng xếp hạng</string>
+
+
 </resources>

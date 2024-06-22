@@ -103,4 +103,7 @@ dependencies {
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.0")
 
+    // coil
+    implementation ("io.coil-kt:coil:2.1.0")
+
 }

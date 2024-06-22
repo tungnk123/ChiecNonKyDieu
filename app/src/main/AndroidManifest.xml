@@ -12,18 +12,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChiecNonKyDieu"
         tools:targetApi="31">
+        <activity
+            android:name="com.uit.chiecnonkydieu.ui.leaderboard.LeaderboardActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.uit.chiecnonkydieu.ui.inventory.InventoryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.uit.chiecnonkydieu.ui.store.StoreActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.uit.chiecnonkydieu.ui.profile.ProfileActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
+
         <activity
             android:name="com.uit.chiecnonkydieu.ui.Payment.PaymentActivity"
-            android:exported="true" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+            android:exported="true">
 
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
         <activity
             android:name="com.uit.chiecnonkydieu.ui.admin.HomeAdminActivity"
             android:exported="false" />
@@ -58,12 +72,14 @@
             android:launchMode="singleTop" />
         <activity
             android:name="com.uit.chiecnonkydieu.MainActivity"
-            android:exported="true" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            android:exported="true">
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <meta-data
