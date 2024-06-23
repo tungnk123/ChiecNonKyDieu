@@ -24,7 +24,7 @@
         android:layout_height="100dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:src="@color/blue_200"
+        android:src="@drawable/img_ava"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 

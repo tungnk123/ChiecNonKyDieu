@@ -13,19 +13,18 @@ val questionAnswerList: MutableList<QuestionAnswer> = mutableListOf(
         "Hà Nội",
         "HA NOI",
         "Thủ đô của Việt Nam nằm ở đâu?",
-        "Hint1",
-        "Hint2",
-        "Hint3",
+        "Danh từ riêng",
+        "Tọa lạc bên bờ sông Hồng",
+        "Là trung tâm chính trị, văn hóa và giáo dục quan trọng của Việt Nam ",
         "Thong tin"
     ),
     QuestionAnswer(
         "Hà Nội",
         "HA NOI",
         "Thủ đô của Việt Nam nằm ở đâu?",
-        "Hint1",
-        "Hint2",
-        "Hint3",
+        "Danh từ riêng",
+        "Tọa lạc bên bờ sông Hồng",
+        "Là trung tâm chính trị, văn hóa và giáo dục quan trọng của Việt Nam ",
         "Thong tin"
     ),
-
     )

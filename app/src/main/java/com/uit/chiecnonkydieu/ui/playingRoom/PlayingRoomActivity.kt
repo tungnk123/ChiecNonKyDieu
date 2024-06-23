@@ -283,17 +283,17 @@ class PlayingRoomActivity : AppCompatActivity() {
             .show()
 
         listHint.findViewById<LinearLayout>(R.id.ll_hint1).setOnClickListener {
-            Toast.makeText(applicationContext, "hint1 click", Toast.LENGTH_LONG).show()
+//            Toast.makeText(applicationContext, "hint1 click", Toast.LENGTH_LONG).show()
             listHint.findViewById<ImageView>(R.id.img_add1).visibility = View.GONE
             listHint.findViewById<TextView>(R.id.tv_hint1).text = GameData.gameModel.value!!.currentQuestionAnswer.Hint1
         }
         listHint.findViewById<LinearLayout>(R.id.ll_hint2).setOnClickListener {
-            Toast.makeText(applicationContext, "hint2 click", Toast.LENGTH_LONG).show()
+//            Toast.makeText(applicationContext, "hint2 click", Toast.LENGTH_LONG).show()
             listHint.findViewById<ImageView>(R.id.img_add2).visibility = View.GONE
             listHint.findViewById<TextView>(R.id.tv_hint2).text = GameData.gameModel.value!!.currentQuestionAnswer.Hint2
         }
         listHint.findViewById<LinearLayout>(R.id.ll_hint3).setOnClickListener {
-            Toast.makeText(applicationContext, "hint3 click", Toast.LENGTH_LONG).show()
+//            Toast.makeText(applicationContext, "hint3 click", Toast.LENGTH_LONG).show()
             listHint.findViewById<ImageView>(R.id.img_add3).visibility = View.GONE
             listHint.findViewById<TextView>(R.id.tv_hint3).text = GameData.gameModel.value!!.currentQuestionAnswer.Hint3
         }
