@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class AppContainer {
 
-    private val BASE_URL = "https://api.example.com/"
+    private val BASE_URL = "https://api.apillon.io/"
 
     val api: ApillonApiService by lazy {
         Retrofit.Builder()
