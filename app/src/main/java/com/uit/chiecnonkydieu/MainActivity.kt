@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 //        startActivity(intent)
         binding.btnBatDau.setOnClickListener {
 //            goToPlayingRoom()
-            val intent = Intent(this, WheelActivity::class.java)
+            val intent = Intent(this, EveryDayWheelActivity::class.java)
             startActivity(intent)
         }
 

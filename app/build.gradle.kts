@@ -115,5 +115,7 @@ dependencies {
     // gson
     implementation ("com.google.code.gson:gson:2.10.1")
 
+    // ads
+    implementation ("com.google.android.gms:play-services-ads:23.1.0")
 
 }
