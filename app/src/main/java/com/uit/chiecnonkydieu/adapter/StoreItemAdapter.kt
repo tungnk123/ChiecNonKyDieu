@@ -2,6 +2,7 @@ package com.uit.chiecnonkydieu.adapter
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +13,13 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.uit.chiechnonkydieu.R
 import com.uit.chiecnonkydieu.model.StoreItem
-import java.util.Objects
 
 class StoreItemAdapter(
         private val storeItemList: List<StoreItem>,
+        private val onCoinValueChanged: (Int) -> Unit
 ) : RecyclerView.Adapter<StoreItemAdapter.StoreItemViewHolder>() {
+
+        private lateinit var sharedPreferences: SharedPreferences
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreItemViewHolder {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.store_item, parent, false)
@@ -60,30 +63,23 @@ class StoreItemAdapter(
                         builder.setTitle("Confirm Buy")
                                 .setMessage("Are you sure you want to buy this item?")
                                 .setPositiveButton("Buy") { _, _ ->
-                                        val clickedItem = storeItemList[position]
+                                        var clickedItem = storeItemList[position]
+                                        sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                                        val coin = sharedPreferences.getInt("coin", 1000)
 
-//                                        if (!clickedItem.isPurchased) {
-////                                                val currentCoins = coinManager.getData("Coin", 100)
-////                                                if (currentCoins >= clickedItem.itemPrice) {
-////                                                        clickedItem.isPurchased = true
-////                                                        storeItemViewModel.updateItemPurchased(clickedItem.item_id, true)
-////                                                        tvCoinNumber.text = "Purchased"
-////                                                        imgCoin.visibility = View.GONE
-////                                                        val newMoney = currentCoins - clickedItem.itemPrice
-////                                                        coinManager.saveData("Coin", newMoney)
-////                                                        StoreFragment.storeNewMoney()
-////
-////                                                        if (Objects.equals(clickedItem.storeItemType, "tree")) {
-////                                                                HabitDataBase.getInstance(context).habitDAO()
-////                                                                        .updateTreeForestIsPurchased(clickedItem.item_id, true)
-////                                                                notifyDataSetChanged()
-////                                                        }
-//                                                } else {
-//                                                        Toast.makeText(context, "Not enough money! 😅😅😅😅", Toast.LENGTH_SHORT).show()
-//                                                }
-//                                        } else {
-//                                                Toast.makeText(context, "Item is already purchased!", Toast.LENGTH_SHORT).show()
-//                                        }
+                                        if (coin >= clickedItem.itemPrice && !clickedItem.isPurchased) {
+                                                clickedItem.isPurchased = true
+                                                sharedPreferences.edit().apply {
+                                                        putInt("coin", coin - clickedItem.itemPrice)
+                                                        apply()
+                                                }
+                                                tvCoinNumber.text = "Purchased"
+                                                imgCoin.visibility = View.GONE
+                                                onCoinValueChanged(coin - clickedItem.itemPrice)
+
+                                        } else {
+                                                Toast.makeText(context, "Not enough money! 😅😅😅😅", Toast.LENGTH_SHORT).show()
+                                        }
                                 }
                                 .setNegativeButton("Cancel", null)
                                 .show()

@@ -10,14 +10,15 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.uit.chiechnonkydieu.R
 import com.uit.chiechnonkydieu.databinding.ActivityInventoryBinding
+import com.uit.chiecnonkydieu.adapter.InventoryAdapter
 import com.uit.chiecnonkydieu.adapter.StoreItemAdapter
 import com.uit.chiecnonkydieu.model.GemResponse
 import com.uit.chiecnonkydieu.model.StoreItem
 
 class InventoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityInventoryBinding
-    private lateinit var storeItemDaQuyAdapter: StoreItemAdapter
-    private lateinit var storeItemNFTAdapter: StoreItemAdapter
+    private lateinit var storeItemDaQuyAdapter: InventoryAdapter
+    private lateinit var storeItemNFTAdapter: InventoryAdapter
     //    private lateinit var storeItemViewModel: StoreItemViewModel
     private lateinit var storeItemList: List<StoreItem>
     private lateinit var storeItemNFTList: List<StoreItem>
@@ -76,8 +77,8 @@ class InventoryActivity : AppCompatActivity() {
                 itemPrice = 20
             )
         )
-        storeItemDaQuyAdapter = StoreItemAdapter(storeItemList)
-        storeItemNFTAdapter = StoreItemAdapter(storeItemNFTList)
+        storeItemDaQuyAdapter = InventoryAdapter(storeItemList)
+        storeItemNFTAdapter = InventoryAdapter(storeItemNFTList)
         binding.rcvDaQuy.apply {
             layoutManager = LinearLayoutManager(this@InventoryActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = storeItemDaQuyAdapter

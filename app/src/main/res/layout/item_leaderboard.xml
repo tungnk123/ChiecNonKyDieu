@@ -4,22 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/orange"
-    android:backgroundTint="@color/orange"
     android:layout_marginBottom="10dp"
     android:orientation="horizontal"
     app:cardCornerRadius="20dp"
     app:contentPadding="10dp"
-    android:id="@+id/cv_storeItem_cardviewStoreItem"
-    app:cardElevation="5dp">
+    android:id="@+id/cv_leaderboardItem">
 
     <TextView
         android:id="@+id/tv_stt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_gravity="center|start"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="10dp"
         style="@style/TextAppearance.Material3.DisplayMedium"
-        android:text="1"
+        android:text=""
         android:textAlignment="center" />
 
     <TextView
