@@ -64,10 +64,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SearchRoomActivity::class.java)
             startActivity(intent)
         }
-//        binding.setOnClickListener {
-//            val intent = Intent(this, PaymentActivity::class.java)
-//            startActivity(intent)
-//        }
 
         binding.llProfile.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)

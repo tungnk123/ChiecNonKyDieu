@@ -1,16 +1,21 @@
 package com.uit.chiecnonkydieu.ui.wheel
 
 import android.content.Context
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.uit.chiechnonkydieu.R
 import com.uit.chiecnonkydieu.data.GameData
 import com.uit.chiecnonkydieu.data.GameModel
 import com.uit.chiecnonkydieu.data.GameStatus
 import com.uit.chiecnonkydieu.model.LetterCard
+import com.uit.chiecnonkydieu.network.GemApiService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import rubikstudio.library.model.LuckyItem
 class EveryDayWheelViewModel: ViewModel() {
     private val _luckyItemsList: MutableList<LuckyItem> = mutableListOf()
@@ -18,6 +23,7 @@ class EveryDayWheelViewModel: ViewModel() {
 
     private val _letterCardList = MutableLiveData<MutableList<LetterCard>>()
     val letterCardList: LiveData<MutableList<LetterCard>> = _letterCardList
+
     fun initLuckyItemList(context: Context) {
         val luckyItem: LuckyItem = LuckyItem()
         luckyItem.secondaryText = "1"
@@ -150,5 +156,12 @@ class EveryDayWheelViewModel: ViewModel() {
             GameData.saveGameModel(gameModel)
         }
 
+    }
+
+    fun digGem(apiService: GemApiService, username: String, row: Int, col: Int) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            apiService.digGem(username, row, col)
+//        }
+//        Log.d("Gem Api", "is running")
     }
 }

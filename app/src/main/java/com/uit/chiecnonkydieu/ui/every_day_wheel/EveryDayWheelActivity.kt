@@ -21,6 +21,10 @@ import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.uit.chiechnonkydieu.R
 import com.uit.chiechnonkydieu.databinding.ActivityEveryDayWheelBinding
+import com.uit.chiecnonkydieu.AppContainer
+import com.uit.chiecnonkydieu.ChiecNonKyDieuApplication
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import rubikstudio.library.LuckyWheelView
 import rubikstudio.library.LuckyWheelView.LuckyRoundItemSelectedListener
 
@@ -29,6 +33,8 @@ class EveryDayWheelActivity : AppCompatActivity() {
     private lateinit var countDownTimer: CountDownTimer
     private var rewardedAd: RewardedAd? = null
     private val delayHandler = Handler(Looper.getMainLooper())
+    private val container = AppContainer()
+    val wheelViewModel: EveryDayWheelViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +54,7 @@ class EveryDayWheelActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val wheelViewModel: EveryDayWheelViewModel by viewModels()
+
         val luckyWheelView: LuckyWheelView = binding.luckyWheel
 
         wheelViewModel.initLuckyItemList(this)
@@ -78,6 +84,7 @@ class EveryDayWheelActivity : AppCompatActivity() {
                 luckyWheelView.setRound(3)
                 luckyWheelView.startLuckyWheelWithTargetIndex(indexAns)
                 wheelViewModel.updateCurrentSpinValue(wheelViewModel.getStringItemAtIndex(indexAns))
+                wheelViewModel.digGem(container.gemApi, "tungnk123", 2, 3)
             }
         }
 
@@ -138,6 +145,7 @@ class EveryDayWheelActivity : AppCompatActivity() {
             .setMessage("You have won gem $reward")
             .setPositiveButton(android.R.string.ok, null)
             .show()
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -2,6 +2,7 @@ package com.uit.chiecnonkydieu.ui.inventory
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.uit.chiechnonkydieu.R
 import com.uit.chiechnonkydieu.databinding.ActivityInventoryBinding
 import com.uit.chiecnonkydieu.adapter.StoreItemAdapter
+import com.uit.chiecnonkydieu.model.GemResponse
 import com.uit.chiecnonkydieu.model.StoreItem
 
 class InventoryActivity : AppCompatActivity() {
@@ -19,6 +21,8 @@ class InventoryActivity : AppCompatActivity() {
     //    private lateinit var storeItemViewModel: StoreItemViewModel
     private lateinit var storeItemList: List<StoreItem>
     private lateinit var storeItemNFTList: List<StoreItem>
+
+    private val inventoryViewModel: InventoryViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -87,6 +91,10 @@ class InventoryActivity : AppCompatActivity() {
 
     }
 
+    fun getItems(username: String) {
+//        val gemResponse = inventoryViewModel.getItems(username)
+//        storeItemList = gemResponse.playerItems
+    }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true

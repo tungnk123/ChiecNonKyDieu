@@ -1,5 +1,7 @@
 package com.uit.chiecnonkydieu.ui.Payment
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -26,6 +28,7 @@ class PaymentActivity : AppCompatActivity(), OnItemClickListener {
     private lateinit var money: String;
     private lateinit var coinReceived: String;
     private lateinit var currentCoin: String;
+    private lateinit var sharedPreferences: SharedPreferences
     private val paymentDataLauncher = registerForActivityResult(TaskResultContracts.GetPaymentDataResult()) { taskResult ->
         when (taskResult.status.statusCode) {
             // Task completed successfully
@@ -33,10 +36,15 @@ class PaymentActivity : AppCompatActivity(), OnItemClickListener {
                 taskResult.result!!.let {
                     Log.i("Google Pay result:", it.toJson())
                     model.setPaymentData(it)
-                    val currentCoin = coinReceived.toInt() + binding.tvCurrentCoin.text.toString().replace(".", "") .toInt();
+                    var currentCoin = coinReceived.toInt() + binding.tvCurrentCoin.text.toString().replace(".", "") .toInt();
                     val formatter = DecimalFormat("#,###")
                     val formattedCurrentCoin = formatter.format(currentCoin)
                     binding.tvCurrentCoin.text = formattedCurrentCoin.replace(",", ".");
+                    currentCoin = sharedPreferences.getInt("coin", 1000)
+                    sharedPreferences.edit().apply {
+                        putInt("coin", currentCoin + money.toInt())
+                        apply()
+                    }
                     Toast.makeText(this, "You have input $money", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -83,6 +91,10 @@ class PaymentActivity : AppCompatActivity(), OnItemClickListener {
 //        model.canUseGooglePay.observe(this, Observer(::setGooglePayAvailable))
 //        // Check whether Google Pay is available and show or hide your Google Pay
 //        // button depending on the result
+
+        sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val coin = sharedPreferences.getInt("coin", 1000)
+        binding.tvCurrentCoin.text = coin.toString()
 
     }
 

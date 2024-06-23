@@ -1,5 +1,8 @@
 package com.uit.chiecnonkydieu.ui.store
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +14,7 @@ import com.uit.chiechnonkydieu.R
 import com.uit.chiechnonkydieu.databinding.ActivityStoreBinding
 import com.uit.chiecnonkydieu.adapter.StoreItemAdapter
 import com.uit.chiecnonkydieu.model.StoreItem
+import com.uit.chiecnonkydieu.ui.Payment.PaymentActivity
 
 class StoreActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStoreBinding
@@ -20,6 +24,7 @@ class StoreActivity : AppCompatActivity() {
 //    private lateinit var storeItemViewModel: StoreItemViewModel
     private lateinit var storeItemList: List<StoreItem>
     private lateinit var storeItemNFTList: List<StoreItem>
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +37,7 @@ class StoreActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 
@@ -84,7 +90,18 @@ class StoreActivity : AppCompatActivity() {
             adapter = storeItemNFTAdapter
         }
 
+        binding.btnNap.setOnClickListener {
+            val intent = Intent(this, PaymentActivity::class.java)
+            startActivity(intent)
+        }
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        binding.tvCoin.text = sharedPreferences.getInt("coin", 1000).toString()
     }
 
     override fun onSupportNavigateUp(): Boolean {

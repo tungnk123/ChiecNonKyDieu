@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.uit.chiechnonkydieu.R
 import com.uit.chiechnonkydieu.databinding.ActivityWheelBinding
 import com.uit.chiecnonkydieu.AppContainer
+import com.uit.chiecnonkydieu.ChiecNonKyDieuApplication
 import com.uit.chiecnonkydieu.model.MintResponse
 import com.uit.chiecnonkydieu.network.MintRequest
 import retrofit2.Call
