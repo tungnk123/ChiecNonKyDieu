@@ -4,14 +4,6 @@ plugins {
     id("com.google.gms.google-services")
 }
 android {
-    signingConfigs {
-        getByName("debug") {
-            storeFile = file("D:\\tai-lieu-uit\\nam-3\\Mobile\\keystore_path\\AppKeyStore2.jks")
-            storePassword = "123456"
-            keyAlias = "key0"
-            keyPassword = "123456"
-        }
-    }
     namespace = "com.uit.chiechnonkydieu"
     compileSdk = 34
 

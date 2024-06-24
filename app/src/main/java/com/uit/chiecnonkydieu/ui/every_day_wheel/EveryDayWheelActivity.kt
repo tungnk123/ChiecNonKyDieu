@@ -73,7 +73,7 @@ class EveryDayWheelActivity : AppCompatActivity() {
 
         luckyWheelView.setLuckyRoundItemSelectedListener(object : LuckyRoundItemSelectedListener {
             override fun LuckyRoundItemSelected(index: Int) {
-                showRewardDialogWithDelay(wheelViewModel.getStringItemAtIndex(index), 800) // 2 seconds delay
+                showRewardDialogWithDelay(wheelViewModel.getStringItemAtIndex(index), 600) // 2 seconds delay
             }
         })
 
@@ -84,7 +84,7 @@ class EveryDayWheelActivity : AppCompatActivity() {
                 luckyWheelView.setRound(3)
                 luckyWheelView.startLuckyWheelWithTargetIndex(indexAns)
                 wheelViewModel.updateCurrentSpinValue(wheelViewModel.getStringItemAtIndex(indexAns))
-                wheelViewModel.digGem(container.gemApi, "tungnk123", 2, 3)
+                wheelViewModel.digGem("tungnk123", indexAns / 4, indexAns % 4)
             }
         }
 
@@ -130,6 +130,7 @@ class EveryDayWheelActivity : AppCompatActivity() {
         } ?: run {
             // Load the ad for the next attempt
             loadRewardedAd()
+            onAdComplete()
         }
     }
 
@@ -141,8 +142,8 @@ class EveryDayWheelActivity : AppCompatActivity() {
 
     private fun showRewardDialog(reward: String) {
         AlertDialog.Builder(this)
-            .setTitle("Congratulations!")
-            .setMessage("You have won gem $reward")
+            .setTitle("🎉Chúc mừng!🎉")
+            .setMessage("Bạn đã đào được 1 viên đá quý")
             .setPositiveButton(android.R.string.ok, null)
             .show()
 

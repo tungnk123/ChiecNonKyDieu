@@ -36,8 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|end"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="15dp"
-        style="@style/TextAppearance.Material3.DisplaySmall"
+        android:layout_marginEnd="10dp"
+        style="@style/TextAppearance.Material3.TitleLarge"
         android:text="80"
         android:textAlignment="center" />
 

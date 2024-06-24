@@ -11,12 +11,16 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.uit.chiechnonkydieu.R
 import com.uit.chiecnonkydieu.model.StoreItem
+import com.uit.chiecnonkydieu.ui.inventory.InventoryViewModel
 import java.util.Objects
 
 class InventoryAdapter(
-    private val storeItemList: List<StoreItem>,
+    private var storeItemList: List<StoreItem>,
+    private val username: String,
+    private val inventoryViewModel: InventoryViewModel,
 ) : RecyclerView.Adapter<InventoryAdapter.StoreItemViewHolder>() {
 
     private lateinit var sharedPreferences: SharedPreferences
@@ -28,7 +32,16 @@ class InventoryAdapter(
 
     override fun onBindViewHolder(holder: StoreItemViewHolder, position: Int) {
         val storeItem = storeItemList[position]
-        holder.imgIcon.setImageResource(storeItem.itemImg)
+        if (storeItem.itemImg.isEmpty()) {
+            storeItem.itemImg = "https://cdn-icons-png.flaticon.com/512/6411/6411782.png"
+        }
+        holder.imgIcon.load(
+            storeItem.itemImg
+        ) {
+            placeholder(R.drawable.ic_placeholder)
+            error(R.drawable.ic_error)
+        }
+        holder.tvItemName.text = storeItem.itemName
         holder.tvItemName.text = storeItem.itemName
 
 //        if (storeItem.isPurchased) {
@@ -42,6 +55,10 @@ class InventoryAdapter(
 
     override fun getItemCount(): Int {
         return storeItemList.size
+    }
+    fun updateItems(newItems: List<StoreItem>) {
+        storeItemList = newItems
+        notifyDataSetChanged()
     }
 
     inner class StoreItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -61,37 +78,9 @@ class InventoryAdapter(
             builder.setTitle("Confirm Buy")
                 .setMessage("Are you sure you want to sell this item?")
                 .setPositiveButton("Sell") { _, _ ->
-                    Toast.makeText(context, "Feature is under construction", Toast.LENGTH_SHORT).show()
-//                    var clickedItem = storeItemList[position]
-//                    clickedItem.isPurchased = true
-//                    sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-//                    val coin = sharedPreferences.getInt("coin", 1000)
-//                    sharedPreferences.edit().apply {
-//                        putInt("coin", coin - clickedItem.itemPrice)
-//                        apply()
-//                    }
-//                                        if (!clickedItem.isPurchased) {
-////                                                val currentCoins = coinManager.getData("Coin", 100)
-////                                                if (currentCoins >= clickedItem.itemPrice) {
-////                                                        clickedItem.isPurchased = true
-////                                                        storeItemViewModel.updateItemPurchased(clickedItem.item_id, true)
-////                                                        tvCoinNumber.text = "Purchased"
-////                                                        imgCoin.visibility = View.GONE
-////                                                        val newMoney = currentCoins - clickedItem.itemPrice
-////                                                        coinManager.saveData("Coin", newMoney)
-////                                                        StoreFragment.storeNewMoney()
-////
-////                                                        if (Objects.equals(clickedItem.storeItemType, "tree")) {
-////                                                                HabitDataBase.getInstance(context).habitDAO()
-////                                                                        .updateTreeForestIsPurchased(clickedItem.item_id, true)
-////                                                                notifyDataSetChanged()
-////                                                        }
-//                                                } else {
-//                                                        Toast.makeText(context, "Not enough money! 😅😅😅😅", Toast.LENGTH_SHORT).show()
-//                                                }
-//                                        } else {
-//                                                Toast.makeText(context, "Item is already purchased!", Toast.LENGTH_SHORT).show()
-//                                        }
+                    val clickedItem = storeItemList[position]
+                    inventoryViewModel.sellItems(username, "123456", clickedItem.itemId, 1, clickedItem.itemPrice)
+                    Toast.makeText(context, "Item sold!", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("Cancel", null)
                 .show()

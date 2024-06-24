@@ -118,7 +118,7 @@ class WheelActivity : AppCompatActivity() {
 
         builder.setPositiveButton("Mint") { dialog, which ->
             // Mint another NFT
-            val uuid = "82d00203-738e-4136-8514-7a8aac192bd9"
+            val uuid = "ba3f4a99-5ea4-41f0-ba68-8acb3f6f9472"
             val authorization = "Basic NWM3MDYwNDYtYzg3My00MjI4LTk5MWEtMDZhMDM3MTU3ZGNlOjZkNGlqSTdSOVVkMA=="
             val request = MintRequest(walletAddress, 1)
 

@@ -4,7 +4,8 @@ import androidx.annotation.DrawableRes
 
 data class StoreItem(
     val itemName: String,
-    @DrawableRes val itemImg: Int,
+    var itemImg: String,
     var isPurchased: Boolean,
-    val itemPrice: Int
+    val itemPrice: Int,
+    val itemId: Int = 23
 )

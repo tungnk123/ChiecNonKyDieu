@@ -11,11 +11,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.uit.chiechnonkydieu.R
 import com.uit.chiecnonkydieu.model.StoreItem
 
 class StoreItemAdapter(
-        private val storeItemList: List<StoreItem>,
+        private var storeItemList: List<StoreItem>,
         private val onCoinValueChanged: (Int) -> Unit
 ) : RecyclerView.Adapter<StoreItemAdapter.StoreItemViewHolder>() {
 
@@ -28,7 +29,12 @@ class StoreItemAdapter(
 
         override fun onBindViewHolder(holder: StoreItemViewHolder, position: Int) {
                 val storeItem = storeItemList[position]
-                holder.imgIcon.setImageResource(storeItem.itemImg)
+                holder.imgIcon.load(
+                        storeItem.itemImg
+                ) {
+                        placeholder(R.drawable.ic_placeholder)
+                        error(R.drawable.ic_error)
+                }
                 holder.tvItemName.text = storeItem.itemName
 
                 if (storeItem.isPurchased) {
@@ -42,6 +48,10 @@ class StoreItemAdapter(
 
         override fun getItemCount(): Int {
                 return storeItemList.size
+        }
+        fun updateItems(newItems: List<StoreItem>) {
+                storeItemList = newItems
+                notifyDataSetChanged()
         }
 
         inner class StoreItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

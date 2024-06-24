@@ -9,13 +9,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uit.chiechnonkydieu.R
+import com.uit.chiecnonkydieu.AppContainer
 import com.uit.chiecnonkydieu.data.GameData
 import com.uit.chiecnonkydieu.data.GameModel
 import com.uit.chiecnonkydieu.data.GameStatus
+import com.uit.chiecnonkydieu.model.DigGemResponse
 import com.uit.chiecnonkydieu.model.LetterCard
 import com.uit.chiecnonkydieu.network.GemApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import rubikstudio.library.model.LuckyItem
 class EveryDayWheelViewModel: ViewModel() {
     private val _luckyItemsList: MutableList<LuckyItem> = mutableListOf()
@@ -23,6 +28,11 @@ class EveryDayWheelViewModel: ViewModel() {
 
     private val _letterCardList = MutableLiveData<MutableList<LetterCard>>()
     val letterCardList: LiveData<MutableList<LetterCard>> = _letterCardList
+
+    private val _digGemResponse = MutableLiveData<DigGemResponse?>()
+    val digGemResponse: LiveData<DigGemResponse?>
+        get() = _digGemResponse
+    val appContainer = AppContainer()
 
     fun initLuckyItemList(context: Context) {
         val luckyItem: LuckyItem = LuckyItem()
@@ -158,10 +168,26 @@ class EveryDayWheelViewModel: ViewModel() {
 
     }
 
-    fun digGem(apiService: GemApiService, username: String, row: Int, col: Int) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            apiService.digGem(username, row, col)
-//        }
-//        Log.d("Gem Api", "is running")
+    fun digGem(username: String, row: Int, col: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val call = appContainer.gemApi.digGem(username, row, col)
+            Log.d("Api gem", call.toString())
+            call.enqueue(object : Callback<DigGemResponse> {
+                override fun onResponse(call: Call<DigGemResponse>, response: Response<DigGemResponse>) {
+                    if (response.isSuccessful) {
+                        _digGemResponse.postValue(response.body())
+
+                    } else {
+                        _digGemResponse.postValue(null)
+                    }
+                    Log.d("Api gem", response.body().toString())
+
+                }
+
+                override fun onFailure(call: Call<DigGemResponse>, t: Throwable) {
+                    _digGemResponse.postValue(null)
+                }
+            })
+        }
     }
 }

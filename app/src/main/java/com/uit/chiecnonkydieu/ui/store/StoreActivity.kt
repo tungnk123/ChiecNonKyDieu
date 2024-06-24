@@ -7,18 +7,23 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.uit.chiechnonkydieu.R
 import com.uit.chiechnonkydieu.databinding.ActivityStoreBinding
 import com.uit.chiecnonkydieu.AppContainer
 import com.uit.chiecnonkydieu.adapter.StoreItemAdapter
+import com.uit.chiecnonkydieu.model.GemResponse
+import com.uit.chiecnonkydieu.model.ItemMarketDto
 import com.uit.chiecnonkydieu.model.MintResponse
 import com.uit.chiecnonkydieu.model.StoreItem
+import com.uit.chiecnonkydieu.model.toStoreItem
 import com.uit.chiecnonkydieu.network.MintRequest
 import com.uit.chiecnonkydieu.ui.Payment.PaymentActivity
 import retrofit2.Call
@@ -34,6 +39,7 @@ class StoreActivity : AppCompatActivity() {
     private lateinit var storeItemNFTList: List<StoreItem>
     private lateinit var sharedPreferences: SharedPreferences
     val appContainer: AppContainer = AppContainer()
+    val storeViewModel: StoreViewModel by viewModels<StoreViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,65 +59,73 @@ class StoreActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        storeItemList = listOf(
-            StoreItem(
-                "Đá quý 1",
-                R.drawable.account_circle_24px,
-                isPurchased = false,
-                itemPrice = 20
-            ),
-            StoreItem(
-                "Đá quý 2",
-                R.drawable.account_circle_24px,
-                isPurchased = false,
-                itemPrice = 20
-            ),
-            StoreItem(
-                "Đá quý 3",
-                R.drawable.account_circle_24px,
-                isPurchased = false,
-                itemPrice = 20
-            )
-        )
+//        storeItemList = listOf(
+//            StoreItem(
+//                "Đá quý 1",
+//                "https://picsum.photos/536/354",
+//                isPurchased = false,
+//                itemPrice = 20
+//            ),
+//            StoreItem(
+//                "Đá quý 2",
+//                "https://picsum.photos/536/354",
+//                isPurchased = false,
+//                itemPrice = 20
+//            ),
+//            StoreItem(
+//                "Đá quý 3",
+//                "https://picsum.photos/536/354",
+//                isPurchased = false,
+//                itemPrice = 20
+//            )
+//        )
         storeItemNFTList = listOf(
             StoreItem(
-                "NFT 1",
-                R.drawable.account_circle_24px,
+                "βetagem 127",
+                "https://i.seadn.io/gae/JkxC-o3FiNx7_2tCEkWkM41RoBds-4Ey5GiUobg3bi7jyuKnT3gIxgXgdG4PY6x01nSxI3RtKbPUHQqr22BTI78-tg?auto=format&dpr=1&w=1000",
                 isPurchased = false,
                 itemPrice = 20
             ),
             StoreItem(
-                "NFT 2",
-                R.drawable.account_circle_24px,
+                "βetagem 139",
+                "https://i.seadn.io/gae/SrQE9XAc3mbTIGd_Oh-_RyQIn4_AE485wBLORYPT5QpRMyP5uASun_WnyTxuoLgZTQnqVwwJokbgCCXebFCd7iWk?auto=format&dpr=1&w=1000",
                 isPurchased = false,
                 itemPrice = 40
             ),
             StoreItem(
-                "NFT 3",
-                R.drawable.account_circle_24px,
+                "βetagem 268",
+                "https://i.seadn.io/gae/G5_lDyTi7a-X9toCZsdFcBIwenJYfLSJO_26FNjxhWS63DU5xxE3cD1scul8zWbKxuVi4NTYoZHnYNrhGmJmj54?auto=format&dpr=1&w=1000",
                 isPurchased = false,
                 itemPrice = 100
             ),
             StoreItem(
-                "NFT 4",
-                R.drawable.account_circle_24px,
+                "βetagem 269",
+                "https://i.seadn.io/gae/6zj2vkEhDWkXCMExFoZMe0AJKeRGZHe9l8Pxur39JPQLN-8mgV57OtaoY2wCGab5UHLBfGFSXK2UOuzU3qCh-RJB?auto=format&dpr=1&w=512",
                 isPurchased = true,
                 itemPrice = 50
             ),
             StoreItem(
-                "NFT 5",
-                R.drawable.account_circle_24px,
+                "βetagem 85",
+                "https://i.seadn.io/gae/Twu_vxEAAHFsyxCLEGKXUtFugwCdMr6k_yQk4vo5fRZtB5IowQg33phIWw89Sx9MEBzy8D5WfO-0h3AU3ARLePj9?auto=format&dpr=1&w=1000",
                 isPurchased = false,
                 itemPrice = 30
             )
         )
+
         sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        storeItemDaQuyAdapter = StoreItemAdapter(storeItemList, ::updateCoinValue)
+        storeItemDaQuyAdapter = StoreItemAdapter(emptyList(), ::updateCoinValue)
+        storeViewModel.itemMarketDto.observe(this, Observer { gemResponse ->
+            gemResponse?.let {
+                updateUI(it)
+            }
+        })
+        storeViewModel.getStoreItems()
         storeItemNFTAdapter = StoreItemAdapter(storeItemNFTList, ::updateCoinValue)
         binding.rcvDaQuy.apply {
             layoutManager = LinearLayoutManager(this@StoreActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = storeItemDaQuyAdapter
         }
+
 
         binding.rcvNft.apply {
             layoutManager = LinearLayoutManager(this@StoreActivity, LinearLayoutManager.HORIZONTAL, false)
@@ -122,8 +136,17 @@ class StoreActivity : AppCompatActivity() {
             val intent = Intent(this, PaymentActivity::class.java)
             startActivity(intent)
         }
+
+
     }
 
+    private fun updateUI(gemResponse: List<ItemMarketDto>) {
+        storeItemList = gemResponse.map {
+            it.toStoreItem()
+        }
+        Log.d("store api", gemResponse.toString())
+        storeItemDaQuyAdapter.updateItems(storeItemList)
+    }
     fun showMintDialog(walletAddress: String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Congratulations!")
